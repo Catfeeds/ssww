@@ -59,6 +59,7 @@ public class Z_ARSummaryController extends BaseController {
 			pd.put("CustNum",pd.getString("CustNum"));
 			pd.put("EmpName",pd.getString("EmpName"));
 		}
+		/*System.out.println("da");*/
 		page.setPd(pd);
 		List<PageData>	varList1 = itemService.list_z_ARSummary(page);
 		List<PageData>	varList = new ArrayList<PageData>();
