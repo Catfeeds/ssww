@@ -34,6 +34,6 @@
         </property>  
 	</bean> 
 	<!-- 定时器测试 -->
-   	<!-- <bean id="PoneBlacklistCache" class="com.fh.timer.Timer" scope="singleton"  init-method="context">
-   	</bean> -->
+   	<!--<bean id="PoneBlacklistCache" class="com.fh.timer.Timer" scope="singleton"  init-method="context">
+   	</bean>-->
 </beans>

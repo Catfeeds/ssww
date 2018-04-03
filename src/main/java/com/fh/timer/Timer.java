@@ -36,8 +36,9 @@ public class Timer {
          /**  
          * 设置一个定时器  
          */    
-        final long timeInterval = 1000*60*12;  
-        Runnable runnable = new Runnable() {  
+        //final long timeInterval = 1000*60*12;
+		final long timeInterval = 1000*10;
+		Runnable runnable = new Runnable() {
 			public void run() {  
 				OutputStreamWriter outWrite = null;
 				String synStr = null;

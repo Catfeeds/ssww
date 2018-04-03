@@ -63,6 +63,7 @@
 							</div>
 							<input type="hidden" name="SOTEMPLATE_ID" id="SOTEMPLATE_ID" value="${pageData.SOTEMPLATE_ID }"/>
 							<input type="hidden" name="FDEPTID" id="FDEPTID" value="${pageData.FDEPTID }"/>
+							<input type="hidden" name="CLIENT_ID" id="CLIENT_ID" value="${pageData.CLIENT_ID }"/>
 							<input type="hidden" name="FBILLNO" id="FBILLNO" value="${pageData.FBILLNO }"/>
 							<input type="hidden" name="SALESORDERBILL_ID" id="SALESORDERBILL_ID" value="${pd.SALESORDERBILL_ID }"/>
 							<div class="aui-car-box-list-item-hread">
@@ -264,6 +265,7 @@
 			var FDEPTID = $("#FDEPTID").val();
 			var FTEMPID = $("#SOTEMPLATE_ID").val();
 			var FDATE = $("#FDATE").text();
+			var CLIENT_ID = $("#CLIENT_ID").val();
 			var jsonstr = '['; 
 			$('.aui-car-box-list-text-arithmetic input').each(function(){ 
 					 jsonstr += '{';  
@@ -296,6 +298,7 @@
 							data: { 
 									FDEPTID : FDEPTID, //部门id
 									FTEMPID : FTEMPID, //模板id
+									CLIENT_ID : CLIENT_ID, //客户id
 									jsonstr : jsonstr,
 									newjsonstr : newjsonstr
 								  }, 
@@ -328,6 +331,7 @@
 			var FTEMPID = $("#SOTEMPLATE_ID").val();
 			//var FBILLNO = "DIDA"+mydate.getFullYear()+(mydate.getMonth()+1)+mydate.getDate()+mydate.getHours()+mydate.getMinutes()+mydate.getSeconds();
 			var FDATE = $("#FDATE").text();
+			var CLIENT_ID = $("#CLIENT_ID").val();
 			//aui-car-box-list-text-arithmetic
 			var jsonstr = '['; 
 			$('.aui-car-box-list-text-arithmetic input').each(function(){ 
@@ -365,6 +369,7 @@
 							FDEPTID : FDEPTID, //部门id
 							FTEMPID : FTEMPID, //模板id
 							//FBILLNO : FBILLNO, //订单编号
+							CLIENT_ID : CLIENT_ID, //客户id
 							jsonstr : jsonstr,
 							//FDATE : FDATE,
 							newjsonstr : newjsonstr

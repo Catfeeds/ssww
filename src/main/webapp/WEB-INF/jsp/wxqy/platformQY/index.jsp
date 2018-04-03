@@ -157,7 +157,8 @@
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/clock_.png" alt="">
 										</div>
-										<p class="weui-grid__label">预警提醒</p> </a> <a onclick="onclick1()"
+										<p class="weui-grid__label">预警提醒</p> </a>
+									<a href="<%=basePath%>dataAnalysis/toLoadAnalysis?USERID=${UserId}"
 										class="weui-grid js_grid">
 
 										<div>

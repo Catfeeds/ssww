@@ -24,7 +24,24 @@ public class ItemService implements ItemManager {
 	public void save_salesOrderEntry(PageData pd)throws Exception{
 		dao2.save("ItemManager.save_salesOrderEntry", pd);
 	}
-	
+
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> list_ClientOrderCount(Page page)throws Exception{
+		return (List<PageData>)dao2.findForList("ItemManager.list_ClientOrderCount", page);
+	}
+
+	/**获取月份的订单量
+	 * @param page
+	 * @throws Exception
+	 */
+	public PageData list_OrderCount(Page page)throws Exception{
+		return (PageData)dao2.findForObject("ItemManager.list_OrderCount", page);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<PageData> list(Page page) throws Exception {

@@ -48,7 +48,13 @@ public interface SalesOrderBillManager{
 	 * @throws Exception
 	 */
 	public List<PageData> list(Page page)throws Exception;
-	
+
+	/**获取月份的订单量
+	 * @param page
+	 * @throws Exception
+	 */
+	public PageData list_OrderCount(Page page)throws Exception;
+
 	/**列表
 	 * @param page
 	 * @throws Exception
@@ -66,8 +72,13 @@ public interface SalesOrderBillManager{
 	 * @throws Exception
 	 */
 	public List<PageData> listNotSyn(Page page)throws Exception;
-	
-	
+
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	public List<PageData> list_ClientOrderCount(Page page)throws Exception;
+
 	public PageData list_withSALESORDERBILL_ID(PageData pd)throws Exception;
 	
 	/**列表(全部)
@@ -81,7 +92,7 @@ public interface SalesOrderBillManager{
 	 * @throws Exception
 	 */
 	public PageData findById(PageData pd)throws Exception;
-	
+
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

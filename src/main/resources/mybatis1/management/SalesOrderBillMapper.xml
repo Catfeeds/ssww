@@ -21,7 +21,8 @@
 		FCHECKERID,	
 		FCHECKDATE,	
 		FREMARK,
-		FSYNSTATUS,	
+		FSYNSTATUS,
+		CLIENT_ID,
 		SALESORDERBILL_ID
 	</sql>
 	
@@ -40,6 +41,7 @@
 		#{FCHECKDATE},	
 		#{FREMARK},	
 		#{FSYNSTATUS},
+		#{CLIENT_ID},
 		#{SALESORDERBILL_ID}
 	</sql>
 	
@@ -80,6 +82,7 @@
 			FCHECKERID = #{FCHECKERID},
 			FCHECKDATE = #{FCHECKDATE},
 			FREMARK = #{FREMARK},
+			CLIENT_ID = #{CLIENT_ID},
 		SALESORDERBILL_ID = SALESORDERBILL_ID
 		where 
 		SALESORDERBILL_ID = #{SALESORDERBILL_ID}
@@ -155,7 +158,22 @@
  		TB_SALESORDERBILL s LEFT JOIN TB_SOTEMPLATE o ON s.FTEMPID = o.SOTEMPLATE_ID 
  		where CONVERT(VARCHAR(10),s.FDATE,120) =  #{pd.FDATE}
 	</select>
-	
+
+	<select id="list_OrderCount" parameterType="page" resultType="pd">
+		SELECT COUNT(FDATE) as count from TB_SALESORDERBILL where CONVERT(VARCHAR(10),FDATE,120) LIKE  #{pd.FDATE} +'%'
+		<if test="pd.FSTATUS!= null and pd.FSTATUS != ''"><!-- 关键词检索 -->
+			  and FSTATUS = #{pd.FSTATUS}
+		</if>
+	</select>
+
+	<select id="list_ClientOrderCount" parameterType="page" resultType="pd">
+		SELECT COUNT(s.CLIENT_ID) as value,c.FNAME as name from
+		TB_SALESORDERBILL s LEFT JOIN TB_CLIENT c ON s.CLIENT_ID = c.FITEMID
+		where CONVERT(VARCHAR(10),s.FDATE,120) LIKE  #{pd.FDATE} +'%'
+		GROUP BY s.CLIENT_ID ,c.FNAME
+	</select>
+
+
 	<select id="list_HisDate" parameterType="page" resultType="pd">
 		SELECT 
 		s.SALESORDERBILL_ID as SALESORDERBILL_ID, s.FBILLNO as FBILLNO ,

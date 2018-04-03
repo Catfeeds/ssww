@@ -45,7 +45,7 @@ public class SalesOrderBillService implements SalesOrderBillManager{
 	}
 	
 	/**批量提交
-	 * @param pd
+	 * @param
 	 * @throws Exception
 	 */
 	public void editSomeOrder(String[] strArr)throws Exception{
@@ -95,6 +95,15 @@ public class SalesOrderBillService implements SalesOrderBillManager{
 	public List<PageData> listNotSyn(Page page)throws Exception{
 		return (List<PageData>)dao.findForList("SalesOrderBillMapper.listNotSyn", page);
 	}
+
+	/**列表
+	 * @param page
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public List<PageData> list_ClientOrderCount(Page page)throws Exception{
+		return (List<PageData>)dao.findForList("SalesOrderBillMapper.list_ClientOrderCount", page);
+	}
 	
 	public PageData list_withSALESORDERBILL_ID(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("SalesOrderBillMapper.list_withSALESORDERBILL_ID", pd);
@@ -116,7 +125,14 @@ public class SalesOrderBillService implements SalesOrderBillManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("SalesOrderBillMapper.findById", pd);
 	}
-	
+	/**获取月份的订单量
+	 * @param page
+	 * @throws Exception
+	 */
+	public PageData list_OrderCount(Page page)throws Exception{
+		return (PageData)dao.findForObject("SalesOrderBillMapper.list_OrderCount", page);
+	}
+
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception

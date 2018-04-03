@@ -58,6 +58,7 @@
 		FCHECKERID,	
 		FCHECKDATE,	
 		FREMARK,
+		CLIENT_ID,
 		FSYNSTATUS,	
 		SALESORDERBILL_ID
 		) values (
@@ -72,7 +73,8 @@
 		#{FSTATUS},	
 		#{FCHECKERID},	
 		#{FCHECKDATE},	
-		#{FREMARK},	
+		#{FREMARK},
+		#{CLIENT_ID},
 		#{FSYNSTATUS},
 		#{SALESORDERBILL_ID}
 		)
@@ -150,7 +152,21 @@
 		<include refid="Field"></include>
 		from t_ICItem A inner Join T_MeasureUnit B On A.FUnitID=B.FMeasureUnitID left  Join ICInventory C On C.FItemID=A.FItemID left  Join t_Stock D On D.FItemID=C.FStockID
 	</select>
-	
+
+	<select id="list_OrderCount" parameterType="page" resultType="pd">
+		SELECT COUNT(FDATE) as count from TB_SALESORDERBILL where CONVERT(VARCHAR(10),FDATE,120) LIKE  #{pd.FDATE} +'%'
+		<if test="pd.FSTATUS!= null and pd.FSTATUS != ''"><!-- 关键词检索 -->
+			and FSTATUS = #{pd.FSTATUS}
+		</if>
+	</select>
+
+	<select id="list_ClientOrderCount" parameterType="page" resultType="pd">
+		SELECT COUNT(s.CLIENT_ID) as value,c.FNAME as name from
+		TB_SALESORDERBILL s LEFT JOIN t_Item c ON s.CLIENT_ID = c.FITEMID
+		where CONVERT(VARCHAR(10),s.FDATE,120) LIKE  #{pd.FDATE} +'%'
+		GROUP BY s.CLIENT_ID ,c.FNAME
+	</select>
+
 	<select id="listItemAll" parameterType="pd" resultType="pd">
 		Select A.FNumber,A.FName,A.FModel,B.FName AS FBasicUnit,C.FName AS FSaleUnit,A.FModifyTime as FModifyTime,
 		D.FName AS FOrderUnit,A.FOrderPrice,A.FSalePrice,A.FItemID,A.FParentID,A.FUnitID,A.FSaleUnitID,A.FOrderUnitID

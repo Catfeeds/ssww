@@ -7,11 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -111,7 +107,71 @@ public class ErpGetController extends BaseController{
 		return json;
 		
 	}
-	
+
+	@RequestMapping(value="/load")
+	@ResponseBody
+	public Map<String, Object> load(Page page)throws Exception{
+		Map<String, Object> json = new HashMap<String, Object>();
+		PageData pd = new PageData();
+		ArrayList<String> dataOfMonth = new ArrayList<String>();
+		for (int i = 1; i < 13; i++) {
+			if (i<10){
+				pd.put("FDATE","2018-0"+i);
+			}else {
+				pd.put("FDATE","2018-"+i);
+			}
+			page.setPd(pd);
+			pd = itemService.list_OrderCount(page);
+			dataOfMonth.add(pd.get("count").toString());
+		}
+		ArrayList<String> dataOfMonthWithStatus = new ArrayList<String>();
+		for (int i = 1; i < 13; i++) {
+			if (i<10){
+				pd.put("FDATE","2018-0"+i);
+			}else {
+				pd.put("FDATE","2018-"+i);
+			}
+			pd.put("FSTATUS",1);
+			page.setPd(pd);
+			pd = itemService.list_OrderCount(page);
+			dataOfMonthWithStatus.add(pd.get("count").toString());
+		}
+		//System.out.println(dataOfMonth);
+		json.put("data2",dataOfMonthWithStatus);
+		json.put("data1", dataOfMonth);
+		return json ;
+	}
+
+	@RequestMapping(value="/loadforClient")
+	@ResponseBody
+	public Map<String, Object> loadforClient(Page page)throws Exception{
+		Map<String, Object> json = new HashMap<String, Object>();
+		PageData pd = new PageData();
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month =cal.get(Calendar.MONTH)+1;
+		String monthstr = null;
+		if (month<10) {
+			monthstr = "0"+ month;
+		}else{
+			monthstr =  ""+month;
+		}
+		String datestr = year+"-" + monthstr;
+		System.out.println(datestr);
+		if (pd.get("FDATE") == null || "".equals(pd.get("FDATE"))){
+			pd.put("FDATE",datestr);
+		}
+		page.setPd(pd);
+		List<PageData> list = itemService.list_ClientOrderCount(page);
+		ArrayList<String> dataOfClient = new ArrayList<String>();
+		for (int i = 0; i < list.size(); i++) {
+			dataOfClient.add(list.get(i).getString("name"));
+		}
+		System.out.println(list);
+		json.put("data", list);
+		json.put("dataOfClient", dataOfClient);
+		return json ;
+	}
 	
 	@RequestMapping(value="/getClient")
 	@ResponseBody
@@ -122,6 +182,8 @@ public class ErpGetController extends BaseController{
 		json.put("Data", varList);
 		return json;
 	}
+
+
 	
 	public String getIpAndProjectName()throws Exception{
 		String ip = null;
@@ -142,6 +204,7 @@ public class ErpGetController extends BaseController{
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String requestUrl = this.getIpAndProjectName()+"/http/test_getSalesorderbill";
+		//String requestUrl ="http://192.168.1.187:8080/ssww/http/test_getSalesorderbill";
 		try {
             URL httpclient =new URL(requestUrl);
             HttpURLConnection conn =(HttpURLConnection) httpclient.openConnection();
@@ -193,6 +256,7 @@ public class ErpGetController extends BaseController{
 	            	pd.put("FSYNSTATUS", Integer.parseInt(job.get("FSYNSTATUS").toString()));
 	            	pd.put("FSTATUS", Integer.parseInt(job.get("FSTATUS").toString()));
 	            	pd.put("FTEMPID", job.getString("FTEMPID"));
+					pd.put("CLIENT_ID", Integer.parseInt(job.get("CLIENT_ID").toString()));
 	            	pd.put("FBILLNO", job.getString("FBILLNO"));
 	            	pd.put("FDEPTID", Integer.parseInt(job.get("FDEPTID").toString()));
 	            	System.out.println(job.get("FDATE").toString());
@@ -213,7 +277,9 @@ public class ErpGetController extends BaseController{
     			if(hint == 1) {
 	            	//System.out.println(job.getString("FBasicUnit"));
 	            	pd.put("SALESORDERBILLENTRY_ID",job.getString("SALESORDERBILLENTRY_ID"));
-	            	pd.put("FENTRYID", Integer.parseInt(job.get("FENTRYID").toString()));
+					if (job.get("FENTRYID") != null && !"".equals(job.get("FENTRYID"))){
+						pd.put("FENTRYID", Integer.parseInt(job.get("FENTRYID").toString()));
+					}
 	            	pd.put("FAUXQTY", Integer.parseInt(job.get("FAUXQTY").toString().substring(0, job.get("FAUXQTY").toString().length()-2)));
 	            	pd.put("SALESORDERBILL_ID", job.getString("SALESORDERBILL_ID"));
 	            	pd.put("FITEMID", Integer.parseInt(job.get("FITEMID").toString()));
