@@ -87,7 +87,6 @@ public class DataAnalysisController extends BaseController{
 			JSONObject jsStr = JSONObject.fromObject(htmlText);
 			JSONArray jsonarr2 = jsStr.getJSONArray("data2"); // erp数据
 			JSONArray jsonarr1 = jsStr.getJSONArray("data1"); // erp数据
-			System.out.println(jsonarr2);
 			json.put("data2",jsonarr2);
 			json.put("data1",jsonarr1);
 		} catch (MalformedURLException e) {
@@ -103,8 +102,13 @@ public class DataAnalysisController extends BaseController{
 	@ResponseBody
 	public Map<String, Object> loadforClient(Page page)throws Exception{
 		Map<String, Object> json = new HashMap<String, Object>();
+		PageData pd = this.getPageData();
+		//String requestUrl = this.getIpAndProjectName()+"/erp_Get/loadforClient?month="+pd.get("month");
+		//System.out.println("========>"+requestUrl);
 		String requestUrl = this.getIpAndProjectName()+"/erp_Get/loadforClient";
-		//String requestUrl = "http://127.0.0.1:8080/ssww"+"/test_Get/getClient";
+		if(pd.get("month") != null && !"".equals(pd.get("month"))){
+			requestUrl = this.getIpAndProjectName()+"/erp_Get/loadforClient?month="+pd.get("month");
+		}
 		try {
 			URL httpclient =new URL(requestUrl);
 			HttpURLConnection conn =(HttpURLConnection) httpclient.openConnection();
@@ -129,8 +133,6 @@ public class DataAnalysisController extends BaseController{
 			JSONObject jsStr = JSONObject.fromObject(htmlText);
 			JSONArray jsonData1 = jsStr.getJSONArray("data"); // erp数据
 			JSONArray jsonarrdataOfClient = jsStr.getJSONArray("dataOfClient"); // erp数据
-			System.out.println(jsonData1);
-			System.out.println(jsonarrdataOfClient);
 			json.put("jsonData1",jsonData1);
 			json.put("jsonarrdataOfClient",jsonarrdataOfClient);
 		} catch (MalformedURLException e) {

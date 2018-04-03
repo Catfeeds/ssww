@@ -147,14 +147,19 @@ public class ErpGetController extends BaseController{
 	public Map<String, Object> loadforClient(Page page)throws Exception{
 		Map<String, Object> json = new HashMap<String, Object>();
 		PageData pd = new PageData();
+		pd = this.getPageData();
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month =cal.get(Calendar.MONTH)+1;
-		String monthstr = null;
-		if (month<10) {
-			monthstr = "0"+ month;
-		}else{
-			monthstr =  ""+month;
+		String monthstr = "";
+		if (pd.getString("month") != null && !"".equals(pd.getString("month"))){
+			monthstr = pd.getString("month").toString();
+		}else {
+			if (month<10) {
+				monthstr = "0"+ month;
+			}else{
+				monthstr =  ""+month;
+			}
 		}
 		String datestr = year+"-" + monthstr;
 		System.out.println(datestr);
@@ -172,7 +177,7 @@ public class ErpGetController extends BaseController{
 		json.put("dataOfClient", dataOfClient);
 		return json ;
 	}
-	
+
 	@RequestMapping(value="/getClient")
 	@ResponseBody
 	public  Map<String, Object> getClient(Page page) throws Exception{

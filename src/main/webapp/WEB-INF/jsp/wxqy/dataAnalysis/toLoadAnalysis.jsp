@@ -21,7 +21,31 @@
 <script type="text/javascript" src="static/js/echarts.min.js"></script>
 <!-- jsp文件头和头部 -->
 <%-- <%@ include file="../../system/index/top.jsp"%> --%>
+<style>
+	select {
+		/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+		border: solid 2px #006699;
+		border-radius: 3px;
+		/*很关键：将默认的select选择框样式清除*/
+		appearance:none;
+		-moz-appearance:none;
+		-webkit-appearance:none;
 
+		/*在选择框的最右侧中间显示小箭头图片*/
+		background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+		/*为下拉小箭头留出一点位置，避免被文字覆盖*/
+		padding-right: 16px;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		padding-left: 5px;
+	}
+	option{
+		padding: 3px;
+	}
+
+	/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+	select::-ms-expand { display: none; }
+</style>
 </head>
 <body class="no-skin">
 						<div class="header">
@@ -32,7 +56,36 @@
 									</div>
 							<!-- -------------------------------------------- -->
 							<div id="main" style="width: 100%;height:40%;"></div>
-							<div id="main1" style="width: 100%;height:40%;"></div>
+							<div style="width: 100%;height:40%;">
+								<table style="width: 100%;height: 100%">
+									<tr>
+										<td style="width: 90%;">
+											<div id="main1" style="width: 100%;height:100%;"></div>
+										</td>
+										<td style="width: 10%">
+											<div id="" style="width: 100%;height:100%;margin-top: 0px;margin-right: 20px">
+												<select id="month">
+													<option value ="">按月搜索</option>
+													<option value ="01">一月</option>
+													<option value="02">二月</option>
+													<option value="03">三月</option>
+													<option value="04">四月</option>
+													<option value="05">五月</option>
+													<option value="06">六月</option>
+													<option value="07">七月</option>
+													<option value="08">八月</option>
+													<option value="09">九月</option>
+													<option value="10">十月</option>
+													<option value="11">十一月</option>
+													<option value="12">十二月</option>
+												</select>
+											</div>
+										</td>
+									</tr>
+
+								</table>
+							</div>
+
 							<!-- -------------------------------------------- -->
 
 	<!-- /.main-container -->
@@ -77,6 +130,21 @@
 			]
         };
 
+		$("#month").change(function () {
+			$.get('<%=basePath%>dataAnalysis/loadforClient?month='+this.value).done(function (data) {
+				// 填入数据
+				myChart1.setOption({
+					legend:[{
+						data: data.jsonarrdataOfClient
+					}],
+					series: [{
+						// 根据名字对应到相应的系列
+						name: '客户订单',
+						data: data.jsonData1
+					}]
+				});
+			});
+		});
 		// 异步加载数据
 		/*$.ajax({
 			url: "http://192.168.1.132:8080/ssww/erp_Get/load",
@@ -128,6 +196,7 @@
 					},
 				]
 			});
+			myChart1.setOption(option1);
 		});
 
         // 使用刚指定的配置项和数据显示图表。
@@ -137,6 +206,9 @@
 		option1 = {
 		    title : {
 		        text: '客户订单数据比例分析',
+				textStyle:{
+					fontSize:15
+				},
 		        subtext: '当月订单比例数据',
 		        x:'center'
 		    },
@@ -189,7 +261,7 @@
 		});
 		myChart1.setOption(option1);
 
-		
+
 	</script>
 
 

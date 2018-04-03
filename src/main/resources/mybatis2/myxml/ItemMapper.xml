@@ -155,9 +155,7 @@
 
 	<select id="list_OrderCount" parameterType="page" resultType="pd">
 		SELECT COUNT(FDATE) as count from TB_SALESORDERBILL where CONVERT(VARCHAR(10),FDATE,120) LIKE  #{pd.FDATE} +'%'
-		<if test="pd.FSTATUS!= null and pd.FSTATUS != ''"><!-- 关键词检索 -->
-			and FSTATUS = #{pd.FSTATUS}
-		</if>
+			and FSYNSTATUS = 1
 	</select>
 
 	<select id="list_ClientOrderCount" parameterType="page" resultType="pd">
