@@ -109,14 +109,39 @@
 			},
 			callback : {
 				onClick : function(event, treeId, treeNode, clickFlag) {
-					// 判断是否父节点  
+					// 判断是否父节点
 					if (!treeNode.isParent) {
-						/* alert("treeId自动编号：" + treeNode.tId + ", 节点id是："
-								+ treeNode.id + ", 节点文本是：" + treeNode.name); */
-								
+					/*	 alert("treeId自动编号：" + treeNode.tId + ", 节点id是："
+								+ treeNode.id + ", 节点文本是：" + treeNode.name);
+								*/
+					}else {
+						/*alert("treeId自动编号：" + treeNode.tId + ", 节点id是："
+								+ treeNode.id + ", 节点文本是：" + treeNode.name);*/
+						//alert("111")
+						var treeName = "";
+						if(treeNode.name == "菜品"){
+							treeName = "00"
+						}else if(treeNode.name == "西点类"){
+							treeName = "03"
+						}else if(treeNode.name == "调味类"){
+							treeName = "02"
+						}else if(treeNode.name == "原材料"){
+							treeName = "01"
+						}else if(treeNode.name == "燃料"){
+							treeName = "06"
+						}else if(treeNode.name == "酒水"){
+							treeName = "04"
+						}else if(treeNode.name == "低值易耗品"){
+							treeName = "07"
+						}else if(treeNode.name == "半成品"){
+							treeName = "05"
+						}
+						$("#treeFrame").attr("src","<%=basePath%>sotemplate/add?treeName="+treeName+"&SOTEMPLATE_ID=${pd.SOTEMPLATE_ID}");
+						return;
 					}
 					//var treeKey = encodeURI(encodeURI(treeNode.name));
 					var treeKey = treeNode.id;
+
 					//alert(treeKey);
 					if(treeNode.id == 1){
 						keywords ="";

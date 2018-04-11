@@ -345,7 +345,11 @@ public class SOTemplateController extends BaseController {
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
 		}
-		
+		String treeName = pd.getString("treeName");				//关键词检索条件
+		System.out.println("------"+treeName);
+		if(null != treeName && !"".equals(treeName)){
+			pd.put("treeName", treeName.trim());
+		}
 		String treeKey = pd.getString("treeKey");				//关键词检索条件
 		if(null != treeKey && !"".equals(treeKey)){
 			pd.put("treeKey", treeKey.trim());

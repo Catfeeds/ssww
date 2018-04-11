@@ -59,27 +59,52 @@
 									</div>
 									<br>
 									<c:set var="theString" value="${closedSotempList}" />
-									<c:forEach items="${allSotempList}" var="var" varStatus="vs">
-										<label style="float:left;padding-left:10px;padding-top:7px;text-align: center;">
-											<input name="checkbox1" type="checkbox"
-											<c:if test="${fn:contains(theString,var.SOTEMPLATE_ID)}"> checked="checked" </c:if>
-											class="ace" id="checkbox1" value="${var.SOTEMPLATE_ID}">
-											<span class="lbl"  style="width:100%;
+									<% int i=1; %>
+									<table width="100%" border="2" bordercolor="#a0c6e5">
+										<c:forEach items="${allSotempList}" var="var" varStatus="vs">
+											<% if (i%3==1) { %>
+											　　<tr>
+											　　<% } %>
+											　　<td ><input name="checkbox1" type="checkbox"
+												<c:if test="${fn:contains(theString,var.SOTEMPLATE_ID)}"> checked="checked" </c:if>
+												class="ace" id="checkbox1" value="${var.SOTEMPLATE_ID}">
+												<span class="lbl"  style="width:90%;margin: 7px;
 												<c:if test="${vs.index % 3 == 0}">
-													background-color:#00CCCC;
+														background-color:#00CCCC;
 												</c:if>
 												<c:if test="${vs.index % 3 == 2}">
-													background-color:#99CC99;
+														background-color:#99CC99;
 												</c:if>
 												<c:if test="${vs.index % 3 == 1}">
-													background-color:#CCCC99;
+														background-color:#CCCC99;
 												</c:if>
-												border-radius: 5px;padding: 6px">
-												模板名称：${var.SOTEMPLATE_NAME}<br>
-												&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模板类型：${var.FTYPE}
-											</span>
-										 </label>
-									</c:forEach>
+														border-radius: 5px;padding: 6px">
+													模板名称：${var.SOTEMPLATE_NAME}<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模板类型：${var.FTYPE}</td>
+											　　<%if(i%3==0){%>
+											　　</tr>
+											　　<% }i++; %>
+											<%--<label style="float:left;padding-left:10px;padding-top:7px;text-align: center;">
+												<input name="checkbox1" type="checkbox"
+												<c:if test="${fn:contains(theString,var.SOTEMPLATE_ID)}"> checked="checked" </c:if>
+												class="ace" id="checkbox1" value="${var.SOTEMPLATE_ID}">
+												<span class="lbl"  style="width:100%;
+													<c:if test="${vs.index % 3 == 0}">
+														background-color:#00CCCC;
+													</c:if>
+													<c:if test="${vs.index % 3 == 2}">
+														background-color:#99CC99;
+													</c:if>
+													<c:if test="${vs.index % 3 == 1}">
+														background-color:#CCCC99;
+													</c:if>
+													border-radius: 5px;padding: 6px">
+													模板名称：${var.SOTEMPLATE_NAME}<br>
+													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模板类型：${var.FTYPE}
+												</span>
+											 </label>--%>
+										</c:forEach>
+									</table>
 								</div>
 							</form>
 							<!-- ------------------------------------------------------------------------------- -->

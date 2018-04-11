@@ -41,7 +41,7 @@
 	border: solid 1px #ccc;
 	border-radius: 5px;
 	background-color: #fff;
-	padding: 0.8rem 0.6rem;
+	padding: 0.6rem 0.5rem;
 	margin-bottom: 1rem;
 	overflow: hidden
 }
@@ -95,12 +95,14 @@
 .order { /* height: 163px; */
 	position: relative;
 	background-color: #fff;
-	margin-bottom: 14px;
+	border-radius: 5px;
+	/*margin-bottom: 14px;*/
 }
 
 .order_title {
-	margin-top: 5px;
-	line-height: 40px;
+	/*margin-top: 5px;*/
+	border-radius: 10px;
+	line-height: 23px;
 	color: #191919;
 	padding-left: 4%;
 	font-size: 16px;
@@ -355,7 +357,7 @@
 												<div class="withdrawals-panel" value="${var.SOTEMPLATE_ID }"
 													id="${var.SOTEMPLATE_ID }"
 													onclick="radio('${var.SOTEMPLATE_ID }')">
-													<div class="order">
+													<div id="or${var.SOTEMPLATE_ID }" class="order">
 														<div class="border_top"></div>
 														<div class="order_title">
 															模板名称：<em style="margin-left: 3%">${var.SOTEMPLATE_NAME
@@ -575,10 +577,10 @@
 			function(){
 				$(".blue_block").animate({left:'20%'});
 				$(".move").css("left","0%");
-					if($("#body").height()>$("#template").height()){
+					if($("#body").height()>$("#order").height()){
 						$("#move_box").height($("#body").height()-88);
 					}else{
-						$("#move_box").height($("#template").height());
+						$("#move_box").height($("#order").height());
 					}
 					$("#sumbit").css("display","");
 					$("#create").css("display","none");
@@ -586,13 +588,14 @@
 				}
 		);
 		$(".state1:eq(0)").click(
+
 			function(){
 				$(".blue_block").animate({left:'40%'})
 				$(".move").css("left","-100%");
-				if($("#body").height()>$("#order").height()){
+				if($("#body").height()>$("#template").height()){
 						$("#move_box").height($("#body").height()-88);
 					}else{
-						$("#move_box").height($("#order").height());
+						$("#move_box").height($("#template").height());
 					}
 					
 					$("#create").css("display","");
@@ -604,7 +607,7 @@
 			function(){
 				$(".blue_block").animate({left:'60%'})
 				$(".move").css("left","-200%");
-				if($("#body").height()>$("#order").height()){
+				if($("#body").height()>$("#history").height()){
 						$("#move_box").height($("#body").height()-88);
 					}else{
 						$("#move_box").height($("#history").height());
@@ -690,9 +693,14 @@
 			    var $this = $(this);
 			    $this.val("no");
 			});
-			
+			$(".order").each(function() {
+				var $this = $(this);
+				$this.css("background-color","");
+			});
+
 			$("#can"+value).val("yes");
-			$("#"+value).css("background-color","#0099CC"); 
+			$("#"+value).css("background-color","#0099CC");
+			$("#or"+value).css("background-color","#FFFFCC");
 		}
 		
 		 function create(){

@@ -193,7 +193,7 @@ public class Page {
 		
 		this.showCount = showCount;
 	}
-	
+
 	public int getCurrentResult() {
 		currentResult = (getCurrentPage()-1)*getShowCount();
 		if(currentResult<0)

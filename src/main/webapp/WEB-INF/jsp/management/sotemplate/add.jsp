@@ -45,7 +45,7 @@
 						<div class="col-xs-12">
 							<!-- ------------------------------------------------------------------------------- -->
 							
-							<form action="sotemplate/add?treeKey=${pd.treeKey }" name="Form" id="search" method="post">
+							<form action="sotemplate/add?treeKey=${pd.treeKey }&treeName=${pd.treeName }" name="Form" id="search" method="post">
 							<input type="hidden" name="SOTEMPLATE_ID" id="SOTEMPLATE_ID" value="${pd.SOTEMPLATE_ID}"/>
 							<table style="margin-top:5px;">
 							<tr>
