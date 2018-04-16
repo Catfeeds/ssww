@@ -425,7 +425,7 @@ public class WeiXinUtil {
 	 * @return 说明返回值含义
 	 * @throws 说明发生此异常的条件
 	 */
-	private static String byteToHex(final byte[] hash) {
+	public static String byteToHex(final byte[] hash) {
 		Formatter formatter = new Formatter();
 		for (byte b : hash) {
 			formatter.format("%02x", b);

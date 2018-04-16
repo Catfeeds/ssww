@@ -3,15 +3,21 @@ package com.fh.controller.test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.fh.qy.qyutil.WeiXinParamesUtil;
+import com.fh.qy.qyutil.WeiXinUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -70,7 +76,48 @@ public class TestHttpController extends BaseController{
 		projectName = pd.getString("PROJECTNAME");
 		return ip+"/"+projectName;
 	}
-	
+
+	//微信js调用
+	@RequestMapping(value = "/testEwm")
+	public ModelAndView testEwm(Page page) throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		page.setPd(pd);
+		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
+		//System.out.println("nonceStr:"+nonceStr);
+		String accessToken= WeiXinUtil.getAccessToken(WeiXinParamesUtil.corpId, WeiXinParamesUtil.localhostAgentSecret).getToken();
+		String jsapi_ticket =WeiXinUtil.getJsapiTicket(accessToken);// 必填，生成签名的H5应用调用企业微信JS接口的临时票据
+		//System.out.println("jsapi_ticket:"+jsapi_ticket);
+		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
+		//System.out.println("timestamp:"+timestamp);
+		//String url=request.getRequestURL().toString();
+		String url = "http://jittest.s1.natapp.cc/ssww/http/testEwm";
+		//System.out.println("url:"+url);
+
+		//2.字典序           ，注意这里参数名必须全部小写，且必须有序
+		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr+ "&timestamp=" + timestamp + "&url=" + url;
+		System.out.println(sign);
+		//3.sha1签名
+		String signature = "";
+		try {
+			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+			crypt.reset();
+			crypt.update(sign.getBytes("UTF-8"));
+			signature = WeiXinUtil.byteToHex(crypt.digest());
+			//System.out.println("signature:"+signature);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		mv.addObject("timestamp", timestamp);
+		mv.addObject("signature", signature);
+		mv.addObject("nonceStr", nonceStr);
+		mv.setViewName("test/testEwm");
+		return mv;
+	}
+
 	@RequestMapping(value="/getItembase")
 	//@Test
 	public void test() throws Exception{

@@ -127,7 +127,8 @@
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/page_white_stack.png" alt="">
 										</div>
-										<p class="weui-grid__label">订单管理</p> </a> <a
+										<p class="weui-grid__label">订单管理</p> </a>
+									<a
 										class="weui-grid js_grid">
 										<div>
 											<img style="width: 35px;height: 35px"
@@ -175,28 +176,32 @@
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/gps.png" alt="">
 										</div>
-										<p class="weui-grid__label">任务管理</p> </a> <a onclick="onclick1()"
+										<p class="weui-grid__label">任务管理</p> </a>
+									<a onclick="onclick1()"
 										class="weui-grid js_grid">
 
 										<div>
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/checkbox.png" alt="">
 										</div>
-										<p class="weui-grid__label">流程管理</p> </a> <a onclick="onclick1()"
+										<p class="weui-grid__label">流程管理</p> </a>
+									<a onclick="onclick1()"
 										class="weui-grid js_grid">
 
 										<div>
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/calendar.png" alt="">
 										</div>
-										<p class="weui-grid__label">日程管理</p> </a> <a onclick="onclick1()"
+										<p class="weui-grid__label">日程管理</p> </a>
+									<a onclick="onclick1()"
 										class="weui-grid js_grid">
 
 										<div>
 											<img style="width: 35px;height: 35px"
 												src="static/images/platformQY/page_white_edit.png" alt="">
 										</div>
-										<p class="weui-grid__label">工作报告</p> </a> <a onclick="onclick1()"
+										<p class="weui-grid__label">工作报告</p> </a>
+									<a href="<%=basePath%>http/testEwm"
 										class="weui-grid js_grid">
 
 										<div>

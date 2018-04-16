@@ -71,7 +71,7 @@ public class TestController extends BaseController{
 		return "成功";
 		
 	}
-	
+
 	@RequestMapping(value="/test_two")
 	@ResponseBody
 	public  Map<String, Object> test_two() throws Exception{

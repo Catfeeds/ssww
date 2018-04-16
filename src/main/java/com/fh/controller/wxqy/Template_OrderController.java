@@ -121,6 +121,8 @@ public class Template_OrderController extends BaseController {
         return mv;
     }
 
+
+
     //跳转修改页面
     @RequestMapping(value = "/toEditOrder")
     public ModelAndView toEditOrder(Page page) throws Exception {
@@ -370,12 +372,10 @@ public class Template_OrderController extends BaseController {
             page.setPd(pd);
             page.setShowCount(150);
             List<PageData> pageDatas = itembaseService.listPageAll(page);
-            System.out.println(pageDatas);
             mv.addObject("pageDatas", pageDatas);
 
         }
         mv.addObject("pd", pd);
-        System.out.println("------->" + pd);
         mv.setViewName("wxqy/template_Order/replenish_item");
         return mv;
     }
@@ -406,9 +406,9 @@ public class Template_OrderController extends BaseController {
                         addInt = 1 ;
                         pd2.put("FITEMID",job.getString("FITEMID"));
                         pd2 = itembaseService.findByFITEMID(pd2);
-                        arrStr.append(pd2.getString("FNAME"));
+                        arrStr.append(pd2.getString("FNAME")+"，");
                         System.out.println("arrStr:"+arrStr);
-                        json.put("arrStr", arrStr);
+
                     }
                 }
                 pd1.put("FAUXQTY", 1);
@@ -417,7 +417,11 @@ public class Template_OrderController extends BaseController {
                 }
                 addInt = 0 ;
             }
+            if(arrStr.length() > 0 ){
+                json.put("arrStr", arrStr.substring(0,arrStr.length()-1));
+            }
         }
+
         json.put("data", "");
         return json;
     }
