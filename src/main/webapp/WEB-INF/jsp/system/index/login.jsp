@@ -69,8 +69,9 @@
 		};
 	</script>
 </head>
-<body>
-
+<body >
+	<img src="static/login/images/login11.jpg" width="100%" height="100%"
+		 style="position:absolute;top:0;left:0;right:100;bottom:0;z-index:-1" />
 	<c:if test="${pd.isMusic == 'yes' }">
 	<div style="display: none">
 	    <audio src="static/login/music/fh1.mp3" autoplay=""></audio>
@@ -80,11 +81,12 @@
 	<div style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
 		<!-- 登录 -->
 		<div id="windows1">
-		<div id="loginbox" >
+		<div id="loginbox" style="border-radius: 15px">
 			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
-						<img src="static/login/logo.png" alt="Logo" />
+						<%--<img src="static/login/logo.png" alt="Logo" />--%>
+						<p>麦香坊后台管理系统</p>
 					</h3>
 				</div>
 				<div class="control-group">
@@ -114,7 +116,7 @@
 							onclick="savePaw();" style="padding-top:0px;" />
 					</div>
 				</div>
-				<div class="form-actions">
+				<div class="form-actions" >
 					<div style="width:86%;padding-left:8%;">
 
 						<div style="float: left;padding-top:2px;">
@@ -136,14 +138,14 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
+					<font color="white"><span id="nameerr"><p style="font-size:18px;color: #0D0D0D">Copyright © 佛山捷特科技</p></span></font>
 				</div>
 			</div>
 		</div>
 		</div>
 		<!-- 注册 -->
 		<div id="windows2" style="display: none;">
-		<div id="loginbox">
+		<div id="loginbox" style="border-radius: 15px">
 			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
@@ -215,7 +217,7 @@
 			</form>
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FHqq313596790 2100</span></font>
+					<span id="nameerr"><p style="font-size:18px;color: #0D0D0D">Copyright © 佛山捷特科技</p></span>
 				</div>
 			</div>
 		</div>
@@ -224,7 +226,8 @@
 	</div>
 	<div id="templatemo_banner_slide" class="container_wapper">
 		<div class="camera_wrap camera_emboss" id="camera_slide">
-			<!-- 背景图片 -->
+			<%--<div data-src="static/login/images/login11.jpg"></div>--%>
+			<%--<!-- 背景图片 -->
 			<c:choose>
 				<c:when test="${not empty pd.listImg}">
 					<c:forEach items="${pd.listImg}" var="var" varStatus="vs">
@@ -238,7 +241,7 @@
 					<div data-src="static/login/images/banner_slide_04.jpg"></div>
 					<div data-src="static/login/images/banner_slide_05.jpg"></div>
 				</c:otherwise>
-			</c:choose>
+			</c:choose>--%>
 		</div>
 		<!-- #camera_wrap_3 -->
 	</div>
@@ -572,8 +575,8 @@
 	<script src="static/js/jquery-1.7.2.js"></script>
 	<script src="static/login/js/jquery.easing.1.3.js"></script>
 	<script src="static/login/js/jquery.mobile.customized.min.js"></script>
-	<script src="static/login/js/camera.min.js"></script>
-	<script src="static/login/js/templatemo_script.js"></script>
+	<%--<script src="static/login/js/camera.min.js"></script>
+	<script src="static/login/js/templatemo_script.js"></script>--%>
 	<script src="static/login/js/ban.js"></script>
 	<script type="text/javascript" src="static/js/jQuery.md5.js"></script>
 	<script type="text/javascript" src="static/js/jquery.tips.js"></script>

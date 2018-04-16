@@ -94,6 +94,10 @@ public class SOTemplateEntryService implements SOTemplateEntryManager{
 	public List<PageData> listAll(PageData pd)throws Exception{
 		return (List<PageData>)dao.findForList("SOTemplateEntryMapper.listAll", pd);
 	}
+
+	public List<PageData> findBySOTEMPLATE_ID(PageData pd)throws Exception{
+		return (List<PageData>)dao.findForList("SOTemplateEntryMapper.findBySOTEMPLATE_ID", pd);
+	}
 	
 	/**通过id获取数据
 	 * @param pd

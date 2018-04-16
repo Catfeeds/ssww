@@ -106,6 +106,15 @@
         ITEMBASE_ID = #{ITEMBASE_ID}
     </select>
 
+    <select id="findByFITEMID" parameterType="pd" resultType="pd">
+        select
+        <include refid="Field"></include>
+        from
+        <include refid="tableName"></include>
+        where
+        FITEMID = #{FITEMID}
+    </select>
+
     <!-- 列表 -->
     <select id="datalistPage" parameterType="page" resultType="pd">
         select

@@ -324,7 +324,7 @@ public class LoginController extends BaseController {
 	
 	/**
 	 * 用户注销
-	 * @param session
+	 * @param
 	 * @return
 	 * @throws Exception 
 	 */
@@ -389,7 +389,7 @@ public class LoginController extends BaseController {
 	}
 	
 	/**获取用户权限
-	 * @param session
+	 * @param
 	 * @return
 	 */
 	public Map<String, String> getUQX(String USERNAME){

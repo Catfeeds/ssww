@@ -98,6 +98,15 @@
 		where 
 			SOTEMPLATEENTRY_ID = #{SOTEMPLATEENTRY_ID}
 	</select>
+
+	<select id="findBySOTEMPLATE_ID" parameterType="pd" resultType="pd">
+		select
+		<include refid="Field"></include>
+		from
+		<include refid="tableName"></include>
+		where
+		SOTEMPLATE_ID = #{SOTEMPLATE_ID}
+	</select>
 	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">

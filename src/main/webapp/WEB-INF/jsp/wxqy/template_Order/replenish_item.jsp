@@ -171,7 +171,13 @@
 							jsonstr : jsonstr,
 						  }, 
 					success: function(data){
-							window.location.href = document.referrer;//返回上一页并刷新  
+						if(data.arrStr != null && data.arrStr != ""){
+							alert("订单模板已存在:"+data.arrStr+"。请勿重复添加！！");
+							window.location.href = document.referrer;//返回上一页并刷新
+						}else {
+							window.location.href = document.referrer;//返回上一页并刷新
+						}
+
 							<%-- window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"; --%>
 		   				 }, 
 		   			error: function(){
@@ -200,11 +206,19 @@
 					data: { 
 							SALESORDERBILL_ID : SALESORDERBILL_ID, //订单id
 							jsonstr : jsonstr,
+							SOTEMPLATE_ID : '${pd.SOTEMPLATE_ID }'
 						  }, 
 					success: function(data){
-							//window.location.href = document.referrer;//返回上一页并刷新  
-							window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
-		   				 }, 
+							//window.location.href = document.referrer;//返回上一页并刷新
+							if(data.arrStr != null && data.arrStr != ""){
+								alert("订单模板已存在:"+data.arrStr+"。请勿重复添加！！");
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
+
+							}else {
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
+
+							}
+									   				 },
 		   			error: function(){
 		        		alert("失败，请稍后重试！！");
 		    		},

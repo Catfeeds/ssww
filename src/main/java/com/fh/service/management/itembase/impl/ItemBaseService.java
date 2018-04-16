@@ -86,7 +86,11 @@ public class ItemBaseService implements ItemBaseManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("ItemBaseMapper.findById", pd);
 	}
-	
+
+	public PageData findByFITEMID(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("ItemBaseMapper.findByFITEMID", pd);
+	}
+
 	/**批量删除
 	 * @param ArrayDATA_IDS
 	 * @throws Exception
