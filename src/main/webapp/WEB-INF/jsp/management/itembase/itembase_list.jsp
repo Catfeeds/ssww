@@ -31,7 +31,7 @@
 						<div class="col-xs-12">
 							
 						<!-- 检索  -->
-						<form action="itembase/list.do?treeKey=${treeKey }" method="post" name="Form" id="Form">
+						<form action="itembase/list.do?treeKey=${treeKey }&treeName=${pd.treeName }" method="post" name="Form" id="Form">
 						<table style="margin-top:5px;">
 							<tr>
 								<td>

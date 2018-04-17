@@ -26,8 +26,8 @@
 		<div class="main-content">
 			<div class="main-content-inner">
 				<div class="page-content">
-					<div class="hr hr-18 dotted hr-double"></div>
 					<div class="row">
+						<br>
 						<div class="" style="text-align: left;margin-left: 10px">
 							<a class="btn btn-mini btn-primary" onclick="saveInfo()">保存</a> <a
 								class="btn btn-mini btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -52,20 +52,21 @@
 
 									</tbody>
 								</table>
-								<div>
-									<div align="center"
+									<%--<div align="center"
 										style="width: 100%;height: 30px;-moz-border-radius: 15px;-webkit-border-radius: 15px; border-radius:15px;background-color:#00CC66;">
 										<strong style="font-size: 18px">订单模板： </strong>
 									</div>
-									<br>
+									<br>--%>
 									<c:set var="theString" value="${closedSotempList}" />
 									<% int i=1; %>
-									<table width="100%" border="2" bordercolor="#a0c6e5">
+									<table width="100%" border="2" bordercolor="#a0c6e5" style="margin-top: 10px">
 										<c:forEach items="${allSotempList}" var="var" varStatus="vs">
 											<% if (i%3==1) { %>
 											　　<tr>
 											　　<% } %>
-											　　<td ><input name="checkbox1" type="checkbox"
+											　　<td nowrap align="center" >
+											<label style="float:left;padding-left:10px;padding-top:7px;text-align: center;">
+											<input name="checkbox1" type="checkbox"
 												<c:if test="${fn:contains(theString,var.SOTEMPLATE_ID)}"> checked="checked" </c:if>
 												class="ace" id="checkbox1" value="${var.SOTEMPLATE_ID}">
 												<span class="lbl"  style="width:90%;margin: 7px;
@@ -80,8 +81,8 @@
 												</c:if>
 														border-radius: 5px;padding: 6px">
 													模板名称：${var.SOTEMPLATE_NAME}<br>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;模板类型：${var.FTYPE}</td>
-											　　<%if(i%3==0){%>
+													</td>
+											　　<% if(i%3==0){ %>
 											　　</tr>
 											　　<% }i++; %>
 											<%--<label style="float:left;padding-left:10px;padding-top:7px;text-align: center;">
@@ -105,7 +106,6 @@
 											 </label>--%>
 										</c:forEach>
 									</table>
-								</div>
 							</form>
 							<!-- ------------------------------------------------------------------------------- -->
 						</div>

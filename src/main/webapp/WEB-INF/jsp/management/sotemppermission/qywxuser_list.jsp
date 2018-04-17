@@ -274,7 +274,7 @@
 				 top.jzts();
 				 var diag = new top.Dialog();
 				 diag.Drag=true;
-				 diag.Title ="编辑";
+				 diag.Title ="编辑订单模板授权";
 				 diag.URL = '<%=basePath%>sotemppermission/goAllocation?QYWXUSER_ID='+Id;
 				 diag.Width = 850;
 				 diag.Height = 600;

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
 
+import com.fh.service.management.interfaceip.InterfaceIPManager;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -47,6 +48,9 @@ public class ItemBaseController extends BaseController {
 	String menuUrl = "itembase/list.do"; //菜单地址(权限用)
 	@Resource(name="itembaseService")
 	private ItemBaseManager itembaseService;
+
+	@Resource(name="interfaceipService")
+	private InterfaceIPManager interfaceipService;
 	
 	/**保存
 	 * @param
@@ -109,6 +113,10 @@ public class ItemBaseController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
+		String treeName = pd.getString("treeName");				//关键词检索条件
+		if(null != treeName && !"".equals(treeName)){
+			pd.put("treeName", treeName.trim());
+		}
 		String keywords = pd.getString("keywords");				//关键词检索条件
 		if(null != keywords && !"".equals(keywords)){
 			pd.put("keywords", keywords.trim());
@@ -118,9 +126,9 @@ public class ItemBaseController extends BaseController {
 		if(null != treeKey && !"".equals(treeKey)){
 			pd.put("treeKey", treeKey.trim());
 		}
-		
 		page.setPd(pd);
-		List<PageData>	varList = itembaseService.list(page);	//列出ItemBase列表
+		//List<PageData>	varList = itembaseService.list(page);	//列出ItemBase列表
+		List<PageData>	varList = itembaseService.listPageAll(page);
 		mv.setViewName("management/itembase/itembase_list");
 		mv.addObject("varList", varList);
 		mv.addObject("treeKey", treeKey);
@@ -243,12 +251,23 @@ public class ItemBaseController extends BaseController {
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(format,true));
 	}
-	
+
+	public String getIpAndProjectName()throws Exception{
+		String ip = null;
+		String projectName = null;
+		PageData pd = new PageData();
+		pd = interfaceipService.findByNew(pd);
+		ip = pd.getString("IP");
+		System.out.println("ip:"+ip);
+		projectName = pd.getString("PROJECTNAME");
+		return ip+"/"+projectName;
+	}
+
 	@RequestMapping(value="/getItembase")
 	@ResponseBody
 	public  Map<String, Object> test() throws Exception{
 		Map<String, Object> json = new HashMap<String, Object>();
-		String requestUrl = "http://justinit.cn/ssww/test_Get/erp_item";
+		String requestUrl = this.getIpAndProjectName()+"/test_Get/erp_item";
 		try {
             URL httpclient =new URL(requestUrl);
             HttpURLConnection conn =(HttpURLConnection) httpclient.openConnection();
