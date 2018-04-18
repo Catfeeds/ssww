@@ -267,29 +267,38 @@
 			var FDATE = $("#FDATE").text();
 			var CLIENT_ID = $("#CLIENT_ID").val();
 			var jsonstr = '['; 
-			$('.aui-car-box-list-text-arithmetic input').each(function(){ 
-					 jsonstr += '{';  
-	                 jsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';  
-	                 jsonstr += '"FENTRYID":"' +$(this).attr("name")+ '",';
-	                 jsonstr += '"FAUXQTY":"' +$(this).val();  
-	                 jsonstr += '"}';
-	                 jsonstr += ','; 
+			$('.aui-car-box-list-text-arithmetic input').each(function(){
+					if($(this).val() != "0" &&$(this).val()!=null){
+						jsonstr += '{';
+						jsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';
+						jsonstr += '"FENTRYID":"' +$(this).attr("name")+ '",';
+						jsonstr += '"FAUXQTY":"' +$(this).val();
+						jsonstr += '"}';
+						jsonstr += ',';
+					}
 				}
-            ); 
-            jsonstr = jsonstr.substring(0, jsonstr.length - 1); 
-            jsonstr += ']';  
-            
+            );
+
+            jsonstr = jsonstr.substring(0, jsonstr.length - 1);
+            jsonstr += ']';
+
             var newjsonstr = '['; 
 			$('.aui-car-box-list-text-arithmetic1 input').each(function(){ 
 					 newjsonstr += '{';  
 	                 newjsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';  
 	                 newjsonstr += '"FAUXQTY":"' +$(this).val();  
 	                 newjsonstr += '"}';
-	                 newjsonstr += ','; 
+	                 newjsonstr += ',';
 				}
-            ); 
-            newjsonstr = newjsonstr.substring(0, newjsonstr.length - 1); 
-            newjsonstr += ']';  
+
+            );
+            newjsonstr = newjsonstr.substring(0, newjsonstr.length - 1);
+            newjsonstr += ']';
+			//if(newjsonstr.length)
+			if (jsonstr.length < 5 && newjsonstr.length<5){
+				alert("没有订单物料，请添加再保存订单！！");
+				return;
+			}
 			bootbox.confirm("确定要保存该订单吗?", function(result) {
 				if(result) {
 						$.ajax({

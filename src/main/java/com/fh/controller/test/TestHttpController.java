@@ -708,6 +708,10 @@ public class TestHttpController extends BaseController{
 		List<PageData> synEntryList = salesorderbillentryService.list_salesOrderEntry(page);
 		json.put("Data", synList);
 		json.put("synEntryList", synEntryList);
+		for (PageData pageData : synList) {
+			pageData.put("FSYNSTATUS",1);
+			salesorderbillService.edit(pageData);
+		}
 		return json;
 	}
 	

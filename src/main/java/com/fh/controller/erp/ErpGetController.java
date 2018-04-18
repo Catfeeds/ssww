@@ -258,7 +258,7 @@ public class ErpGetController extends BaseController{
     			if(hint == 1) {
 	            	//System.out.println(job.getString("FBasicUnit"));
 	            	pd.put("SALESORDERBILL_ID",job.get("SALESORDERBILL_ID"));
-	            	pd.put("FSYNSTATUS", Integer.parseInt(job.get("FSYNSTATUS").toString()));
+	            	pd.put("FSYNSTATUS", 1);
 	            	pd.put("FSTATUS", Integer.parseInt(job.get("FSTATUS").toString()));
 	            	pd.put("FTEMPID", job.getString("FTEMPID"));
 					pd.put("CLIENT_ID", Integer.parseInt(job.get("CLIENT_ID").toString()));
@@ -299,8 +299,8 @@ public class ErpGetController extends BaseController{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } 
-		
+        }
+		json.put("res","1");
 		return json;
 	}
 	

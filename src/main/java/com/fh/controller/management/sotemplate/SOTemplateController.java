@@ -411,7 +411,10 @@ public class SOTemplateController extends BaseController {
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);
-		page.setShowCount(5);
+		System.out.println(page.getShowCount());
+		if (pd.getString("showCount") == null || "".equals(pd.getString("showCount"))){
+			page.setShowCount(5);
+		}
 		List<PageData>	varList = sotemplateService.list(page);	//列出SOTemplate列表
 		//System.out.println("------->>"+varList);
 		mv.setViewName("management/sotemplate/sotemplate_list");

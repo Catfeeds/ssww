@@ -313,7 +313,7 @@
 																				<em >未同步</em>
 																		</h2>
 																		</c:if> <c:if test="${var.FSYNSTATUS == 1}">
-																			<em >成功</em>
+																			<em >同步成功</em>
 																			</h2>
 																		</c:if> <c:if test="${var.FSYNSTATUS == -1}">
 																			<em >未同步</em>
@@ -322,7 +322,7 @@
 																			<em >未同步</em>
 																			</h2>
 																		</c:if> <c:if test="${var.FSYNSTATUS == -2}">
-																			<em >成功</em>
+																			<em >同步成功</em>
 																			</h2>
 																		</c:if></td>
 																</tr>

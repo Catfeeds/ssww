@@ -440,7 +440,7 @@
 		function list_one(value){
 			//alert(FINTERID);
 			$("#divlist_one").css("display","");
-			$("#list_one").attr("src","<%=basePath%>sotemplateentry/list_one?FTEMPID="+value); 
+			$("#list_one").attr("src","<%=basePath%>sotemplateentry/list_one?SOTEMPLATE_ID="+value);
 		}
 	</script>
 

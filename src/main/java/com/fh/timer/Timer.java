@@ -69,7 +69,7 @@ public class Timer {
 				            buff.close();
 				            String htmlText = new String(data, "UTF-8");
 				            JSONObject jsStr = JSONObject.fromObject(htmlText);
-				           // System.out.println(jsStr);
+				            System.out.println(jsStr);
 				        } catch (MalformedURLException e) {
 				            e.printStackTrace();
 				        } catch (IOException e) {
