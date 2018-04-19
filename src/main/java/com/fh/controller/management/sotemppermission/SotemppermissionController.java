@@ -1,6 +1,7 @@
 package com.fh.controller.management.sotemppermission;
 
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -87,10 +88,11 @@ public class SotemppermissionController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		String keywords = pd.getString("keywords");				//关键词检索条件
+		//String keywords = pd.getString("keywords");				//关键词检索条件
 		//keywords  = "3";
 		//System.out.println("keywords值："+keywords);
-		if(null != keywords && !"".equals(keywords)){
+		if(null != pd.getString("keywords") && !"".equals(pd.getString("keywords"))){
+			String keywords = URLDecoder.decode(pd.getString("keywords"), "UTF-8");
 			pd.put("keywords", keywords.trim());
 		}
 		page.setPd(pd);

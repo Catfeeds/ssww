@@ -108,10 +108,10 @@ public class Template_OrderController extends BaseController {
             List<PageData> hisToryList = salesorderbillService.list_HisDate(page);
             mv.addObject("isHistory", "is");
             mv.addObject("hisToryList", hisToryList);
-            System.out.println(hisToryList.size());
         }
         pd.put("FDATE", FDATE);
         page.setPd(pd);
+        System.out.println("pd:"+pd);
         List<PageData> list = salesorderbillService.list_withFtype(page);
         mv.addObject("varList", varList);
         mv.addObject("list", list);
@@ -158,7 +158,7 @@ public class Template_OrderController extends BaseController {
                 JSONObject job = jsStr.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 pd1.put("FENTRYID", job.getString("FENTRYID"));
                 salesorderbillentryService.toEditOrder(pd1);
             }
@@ -171,7 +171,7 @@ public class Template_OrderController extends BaseController {
                 pd1.put("FITEMID", job.getString("FITEMID"));
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 salesorderbillentryService.save(pd1);
             }
         }
@@ -195,7 +195,7 @@ public class Template_OrderController extends BaseController {
                 JSONObject job = jsStr.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 pd1.put("FENTRYID", job.getString("FENTRYID"));
                 salesorderbillentryService.toEditOrder(pd1);
             }
@@ -208,7 +208,7 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 salesorderbillentryService.save(pd1);
             }
         }
@@ -221,9 +221,9 @@ public class Template_OrderController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
-        if (pd.getString("createId") != null && !"".equals(pd.getString("createId"))) {
-            pd.put("SOTEMPLATE_ID", pd.getString("createId"));
-            pd.put("FTEMPID", pd.getString("createId"));
+        if (pd.getString("SOTEMPLATE_ID") != null && !"".equals(pd.getString("SOTEMPLATE_ID"))) {
+            pd.put("SOTEMPLATE_ID", pd.getString("SOTEMPLATE_ID"));
+            pd.put("FTEMPID", pd.getString("SOTEMPLATE_ID"));
         }
         page.setPd(pd);
 
@@ -236,6 +236,7 @@ public class Template_OrderController extends BaseController {
         mv.addObject("varList", varList);
         mv.addObject("pageData", pageData);
         mv.addObject("pd", pd);
+        System.out.println("create_pd:"+pd);
         mv.addObject("repList", repList);
         mv.setViewName("wxqy/template_Order/createOrder");
         return mv;
@@ -254,9 +255,10 @@ public class Template_OrderController extends BaseController {
         pd.put("FDATE", new Date());
         String jsr = this.getBillNO();
         JSONObject jsonstr = JSONObject.fromObject(jsr);
-//		 JSONArray jsonarr = jsr.getJSONArray("Data");
         System.out.println(jsonstr.getString(""));
         pd.put("FBILLNO", jsonstr.getString(""));
+        /*String jsr = "dd11";
+        pd.put("FBILLNO", jsr);*/
         System.out.println(pd);
         salesorderbillService.save(pd);
         int count = 1;
@@ -265,12 +267,12 @@ public class Template_OrderController extends BaseController {
             PageData pd1 = new PageData();
             for (int i = 0; i < jsStr.size(); i++) {
                 JSONObject job = jsStr.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
-                if (Integer.parseInt(job.getString("FAUXQTY")) >= 1) {
+                if (Double.parseDouble(job.getString("FAUXQTY")) > 0) {
                     pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                     pd1.put("SALESORDERBILL_ID", SALESORDERBILL_ID);
                     pd1.put("FITEMID", job.getString("FITEMID"));
                     pd1.put("FENTRYID", count);
-                    pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                    pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                     salesorderbillentryService.save(pd1);
                     count++;
                 }
@@ -285,7 +287,7 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", SALESORDERBILL_ID);
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                 pd1.put("FENTRYID", count);
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 salesorderbillentryService.save(pd1);
                 count++;
             }
@@ -331,12 +333,12 @@ public class Template_OrderController extends BaseController {
             PageData pd1 = new PageData();
             for (int i = 0; i < jsStr.size(); i++) {
                 JSONObject job = jsStr.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
-                if (Integer.parseInt(job.getString("FAUXQTY")) >= 1) {
+                if (Double.parseDouble(job.getString("FAUXQTY")) > 0) {
                     pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                     pd1.put("SALESORDERBILL_ID", SALESORDERBILL_ID);
                     pd1.put("FITEMID", job.getString("FITEMID"));
                     pd1.put("FENTRYID", count);
-                    pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                    pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                     salesorderbillentryService.save(pd1);
                     count++;
                 }
@@ -351,7 +353,7 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", SALESORDERBILL_ID);
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                 pd1.put("FENTRYID", count);
-                pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+                pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 salesorderbillentryService.save(pd1);
                 count++;
             }
@@ -376,6 +378,7 @@ public class Template_OrderController extends BaseController {
 
         }
         mv.addObject("pd", pd);
+        System.out.println(pd);
         mv.setViewName("wxqy/template_Order/replenish_item");
         return mv;
     }

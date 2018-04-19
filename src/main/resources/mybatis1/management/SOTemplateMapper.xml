@@ -98,7 +98,13 @@
 	
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
-		SELECT * from TB_SOTEMPLATE s LEFT JOIN TB_ERP_DEP e ON s.FDEPTID = e.FITEMID
+		SELECT top 1000000000 * from TB_SOTEMPLATE s LEFT JOIN TB_ERP_DEP e ON s.FDEPTID = e.FITEMID
+		where 1=1
+		<if test="pd.keywords!= null and pd.keywords != ''">关键词检索
+			and
+			SOTEMPLATE_NAME LIKE '%' + #{pd.keywords} + '%'
+		</if>
+		ORDER BY SOTEMPLATE_NAME
 		<!-- select
 		<include refid="Field"></include>
 		from 
@@ -118,9 +124,10 @@
 	
 	<!-- 列表 -->
 	<select id="listSotemplate" parameterType="page" resultType="pd">
-		SELECT * from TB_SOTEMPLATE s LEFT JOIN TB_ERP_DEP e ON s.FDEPTID = e.FITEMID WHERE SOTEMPLATE_ID in 
+		SELECT top 100000 * from TB_SOTEMPLATE s LEFT JOIN TB_ERP_DEP e ON s.FDEPTID = e.FITEMID WHERE SOTEMPLATE_ID in
 		(SELECT SOTEMPLATE_ID from TB_SOTEMPPERMISSION WHERE QYWXUSER_ID IN 
 		(SELECT QYWXUSER_ID from TB_QYWXUSER WHERE USERID = #{pd.USERID}))
+		ORDER BY SOTEMPLATE_NAME
 	</select>
 	
 	<!-- 列表(全部) -->
@@ -129,6 +136,7 @@
 		<include refid="Field"></include>
 		from 
 		<include refid="tableName"></include>
+		ORDER BY SOTEMPLATE_NAME
 	</select>
 	
 	<!-- 批量删除 -->

@@ -120,10 +120,12 @@
 			<a style="background-color: #0099CC" value="选中返回"
 				onclick="selected()">选中返回</a>
 		</c:if>
-		<c:if test="${pd.SOTEMPLATE_ID eq  null}">
+		<c:if test="${empty pd.SOTEMPLATE_ID}">
 			<a style="background-color: #0099CC" value="选中返回"
 				onclick="selectedAndBack()">选中返回</a>
 		</c:if>
+		<%--<a style="background-color: #0099CC" value="选中返回"
+		   onclick="selected()">选中返回</a>--%>
 		<a style="background-color: #00CC99" value="返回" onclick="toBack()">返回</a>
 	</div>
 
@@ -189,7 +191,8 @@
        
        function selected(){
        		var SALESORDERBILL_ID = "${pd.SALESORDERBILL_ID }";
-       		var jsonstr = '['; 
+		   	var SOTEMPLATE_ID = '${pd.SOTEMPLATE_ID }';
+       		var jsonstr = '[';
        		$(".aui-car-box-list-text .float_div").each(function(){
        			if($(this).css("display") != "none"){
        				jsonstr += '{';
@@ -206,16 +209,16 @@
 					data: { 
 							SALESORDERBILL_ID : SALESORDERBILL_ID, //订单id
 							jsonstr : jsonstr,
-							SOTEMPLATE_ID : '${pd.SOTEMPLATE_ID }'
+							SOTEMPLATE_ID : SOTEMPLATE_ID
 						  }, 
 					success: function(data){
 							//window.location.href = document.referrer;//返回上一页并刷新
 							if(data.arrStr != null && data.arrStr != ""){
 								alert("订单模板已存在:"+data.arrStr+"。请勿重复添加！！");
-								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}';
 
 							}else {
-								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}';
 
 							}
 									   				 },
@@ -230,7 +233,7 @@
         		var keywords = encodeURI(encodeURI($("#keywords").val()));
         		$.ajax({
 				       type: "GET",
-				       url: "template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&keywords="+keywords+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}',
+				       url: "template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&keywords="+keywords+"&SOTEMPLATE_ID="+'${pd.SOTEMPLATE_ID}'+ "&USERID="+'${pd.USERID}',
 				       data: $('#registSubmit').serialize(),
 					   }).success(function(message) {
 					   	$(":root").html(message);

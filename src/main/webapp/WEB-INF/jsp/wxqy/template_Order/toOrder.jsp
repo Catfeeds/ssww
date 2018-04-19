@@ -706,17 +706,17 @@
 		 function create(){
        		//alert("create()");alert(
        		var count = 0 ;
-       		var createId = "";
+       		var SOTEMPLATE_ID = "";
        		$(".cancel").each(function() {
 			    var $this = $(this);
 			  	//alert($this.val());
 			    if($this.val()==="yes"){
-			    	createId = $this.attr("name");
+					SOTEMPLATE_ID = $this.attr("name");
 			    	count ++ ;
 			    }
 			});
 			if(count != 0 ){
-				window.location.href="<%=basePath%>template_Order/createOrder?createId="+createId+ "&USERID="+'${pd.USERID}';
+				window.location.href="<%=basePath%>template_Order/createOrder?SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}';
 			}else{
 				alert("请选择一个模板");
 			}

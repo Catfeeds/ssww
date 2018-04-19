@@ -285,7 +285,7 @@ public class ErpGetController extends BaseController{
 					if (job.get("FENTRYID") != null && !"".equals(job.get("FENTRYID"))){
 						pd.put("FENTRYID", Integer.parseInt(job.get("FENTRYID").toString()));
 					}
-	            	pd.put("FAUXQTY", Integer.parseInt(job.get("FAUXQTY").toString().substring(0, job.get("FAUXQTY").toString().length()-2)));
+	            	pd.put("FAUXQTY", Double.parseDouble(job.get("FAUXQTY").toString()));
 	            	pd.put("SALESORDERBILL_ID", job.getString("SALESORDERBILL_ID"));
 	            	pd.put("FITEMID", Integer.parseInt(job.get("FITEMID").toString()));
 	            	itemService.save_salesOrderEntry(pd);

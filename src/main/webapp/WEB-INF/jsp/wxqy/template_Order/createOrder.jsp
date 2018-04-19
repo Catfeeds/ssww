@@ -257,7 +257,7 @@
 		
 		function addItem(){
 			window.location.href="<%=basePath%>template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"
-									+"&SOTEMPLATE_ID="+"${pd.createId}"+ "&USERID="+'${pd.USERID}';
+									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
 		}
 		
 		var mydate = new Date();

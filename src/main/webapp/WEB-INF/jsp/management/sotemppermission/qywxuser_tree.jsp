@@ -120,7 +120,8 @@
 								+ treeNode.id + ", 节点文本是：" + treeNode.name); */
 								
 					}
-					var keywords = treeNode.name;
+					//var keywords = treeNode.name;
+					var keywords = encodeURI(encodeURI(treeNode.name));
 					if(treeNode.id == 1){
 						keywords ="";
 						$("#treeFrame").attr("src","<%=basePath%>sotemppermission/userList?keywords="+keywords);

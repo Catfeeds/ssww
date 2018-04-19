@@ -70,7 +70,7 @@
 												<c:if test="${fn:contains(theString,var.SOTEMPLATE_ID)}"> checked="checked" </c:if>
 												class="ace" id="checkbox1" value="${var.SOTEMPLATE_ID}">
 												<span class="lbl"  style="width:90%;margin: 7px;
-												<c:if test="${vs.index % 3 == 0}">
+												<%--<c:if test="${vs.index % 3 == 0}">
 														background-color:#00CCCC;
 												</c:if>
 												<c:if test="${vs.index % 3 == 2}">
@@ -78,7 +78,7 @@
 												</c:if>
 												<c:if test="${vs.index % 3 == 1}">
 														background-color:#CCCC99;
-												</c:if>
+												</c:if>--%>
 														border-radius: 5px;padding: 6px">
 													模板名称：${var.SOTEMPLATE_NAME}<br>
 													</td>

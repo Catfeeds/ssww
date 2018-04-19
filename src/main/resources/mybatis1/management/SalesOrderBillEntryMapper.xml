@@ -109,7 +109,7 @@
 	<select id="list_oneOrder" parameterType="page" resultType="pd">
 		select * from 
 		TB_SALESORDERBILLENTRY s LEFT JOIN TB_ITEMBASE i ON s.FITEMID = i.FITEMID
-		where SALESORDERBILL_ID = #{pd.SALESORDERBILL_ID} and s.FAUXQTY >= 1
+		where SALESORDERBILL_ID = #{pd.SALESORDERBILL_ID}
 	</select>
 	
 	<select id="list_salesOrderEntry" parameterType="page" resultType="pd">

@@ -135,8 +135,9 @@
 																		readonly="readonly"
 																	</c:if>
 																	onfocus="this.select()"
-																  value='<fmt:formatNumber type="number"  
-																	 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' 																	style="width: 48px;height: 21px" class='ace' />
+																	   value='<fmt:formatNumber type="number"
+																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="1"/>'
+																	   style="width: 48px;height: 21px" class='ace' />
 															</div>
 														</div>
 													</div>
@@ -187,8 +188,9 @@
 																	readonly="readonly"
 																</c:if>
 																onfocus="this.select()"
-															  value='<fmt:formatNumber type="number"  
-																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' 																	style="width: 48px;height: 21px" class='ace' />
+															  value='<fmt:formatNumber type="number"
+																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="1"/>'
+																   style="width: 48px;height: 21px" class='ace' />
 														</div>
 													</div>
 												</div>
