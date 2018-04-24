@@ -105,6 +105,11 @@
 		});
 		// zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
 		var setting = {
+			async: {
+				enable: true,
+				url:"/manager/buildinfo/typeTree",
+				dataFilter: null
+			},
 		 	showLine: true,
 			checkable: false,
 			data : {

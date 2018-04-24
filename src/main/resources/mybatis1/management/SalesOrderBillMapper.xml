@@ -23,7 +23,8 @@
 		FREMARK,
 		FSYNSTATUS,
 		CLIENT_ID,
-		SALESORDERBILL_ID
+		SALESORDERBILL_ID,
+		FCustID
 	</sql>
 	
 	<!-- 字段值 -->
@@ -42,7 +43,8 @@
 		#{FREMARK},	
 		#{FSYNSTATUS},
 		#{CLIENT_ID},
-		#{SALESORDERBILL_ID}
+		#{SALESORDERBILL_ID},
+		#{FCustID}
 	</sql>
 	
 	<!-- 新增-->

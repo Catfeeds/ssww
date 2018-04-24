@@ -44,7 +44,7 @@
 											id="nav-search-icon"
 											class="ace-icon fa fa-refresh bigger-110 nav-search-icon blue"></i>
 									</a> -->
-										<ul id="treeDemo" class="ztree"></ul></td>
+									<ul id="treeDemo" class="ztree"></ul></td>
 									<td style="width:85%;" valign="top"><iframe
 											name="treeFrame" id="treeFrame" frameborder="0"
 											src="<%=basePath%>sotemppermission/userList"

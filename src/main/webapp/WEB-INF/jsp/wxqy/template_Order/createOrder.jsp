@@ -308,6 +308,7 @@
 									FDEPTID : FDEPTID, //部门id
 									FTEMPID : FTEMPID, //模板id
 									CLIENT_ID : CLIENT_ID, //客户id
+									FCustID : CLIENT_ID, //客户id
 									jsonstr : jsonstr,
 									newjsonstr : newjsonstr
 								  }, 
@@ -379,6 +380,7 @@
 							FTEMPID : FTEMPID, //模板id
 							//FBILLNO : FBILLNO, //订单编号
 							CLIENT_ID : CLIENT_ID, //客户id
+							FCustID : CLIENT_ID, //客户id
 							jsonstr : jsonstr,
 							//FDATE : FDATE,
 							newjsonstr : newjsonstr

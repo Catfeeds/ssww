@@ -59,6 +59,7 @@
 		FCHECKDATE,	
 		FREMARK,
 		CLIENT_ID,
+		FCustID,
 		FSYNSTATUS,	
 		SALESORDERBILL_ID
 		) values (
@@ -75,6 +76,7 @@
 		#{FCHECKDATE},	
 		#{FREMARK},
 		#{CLIENT_ID},
+		#{FCustID},
 		#{FSYNSTATUS},
 		#{SALESORDERBILL_ID}
 		)
