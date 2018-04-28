@@ -50,7 +50,7 @@
 							<table style="margin-top:5px;">
 							<tr>
 								<td style="vertical-align:top;padding-left:2px">
-									<a class="btn btn-mini  btn-primary" onclick="submit()">提交</a>
+									<a class="btn btn-mini  btn-primary" onclick="submit11()">提交</a>
 								</td>
 								<td style="vertical-align:top;padding-left:2px">
 									<a class="btn btn-mini  btn-danger" onclick="top.Dialog.close();">取消</a>
@@ -222,7 +222,7 @@
 		}
 		
 		
-		function submit(){
+		function submit11(){
 			var chk_value =[]; 
 			 $('input[name="ids"]:checked').each(function(){ 
 				//alert($(this).val())
