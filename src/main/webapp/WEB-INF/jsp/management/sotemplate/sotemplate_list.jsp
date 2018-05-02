@@ -45,7 +45,9 @@
 								<c:if test="${QX.cha == 1 }">
 								<td style="vertical-align:top;padding-left:2px"><a class="btn btn-light btn-xs" onclick="tosearch();"  title="检索"><i id="nav-search-icon" class="ace-icon fa fa-search bigger-110 nav-search-icon blue"></i>查询</a></td>
 								</c:if>
-								<c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-search-icon" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i>导出到EXCEL</a></td></c:if>
+								<c:if test="${QX.toExcel == 1 }"><td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="toExcel();" title="导出到EXCEL"><i id="nav-con" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i>导出到EXCEL</a></td></c:if>
+								<td style="vertical-align:top;padding-left:2px;"><a class="btn btn-light btn-xs" onclick="list_one_toExcel();" title="导出到EXCEL"><i id="nav" class="ace-icon fa fa-download bigger-110 nav-search-icon blue"></i>导出模板物料明细到EXCEL</a></td>
+
 								<td style="vertical-align:top;padding-left:2px">
 									<a class="btn btn-light btn-xs" onclick="copy();">
 										<i class="ace-icon fa fa-credit-card bigger-110 nav-search-icon green"></i>复制模板
@@ -435,7 +437,27 @@
 		function toExcel(){
 			window.location.href='<%=basePath%>sotemplate/excel.do';
 		}
-		
+
+		function list_one_toExcel(){
+			var str = [];
+			for(var i=0;i < document.getElementsByName('ids').length;i++){
+				if(document.getElementsByName('ids')[i].checked){
+					str.push(document.getElementsByName('ids')[i].value);
+				}
+			}
+			if(str.length < 1){
+				alert("您没有选择任何内容!");
+				return false;
+			}else if(str.length > 1){
+				alert("您的选择内容必须要单项!");
+				return false;
+			}else{
+				var Id = str[0];
+				//top.jzts();
+				window.location.href='<%=basePath%>sotemplateentry/list_oneToExcel.do?SOTEMPLATE_ID='+Id;
+			}
+
+		}
 		
 		function list_one(value){
 			//alert(FINTERID);

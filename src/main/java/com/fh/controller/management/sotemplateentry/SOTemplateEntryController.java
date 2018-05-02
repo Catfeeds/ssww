@@ -152,6 +152,56 @@ public class SOTemplateEntryController extends BaseController {
 		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
 		return mv;
 	}
+
+	/**列表打印
+	 * @param page
+	 * @throws Exception
+	 */
+	@RequestMapping(value="/list_oneToExcel")
+	public ModelAndView list_oneToExcel(Page page) throws Exception{
+		logBefore(logger, Jurisdiction.getUsername()+"列表SOTemplateEntry");
+		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限(无权查看时页面会有提示,如果不注释掉这句代码就无法进入列表页面,所以根据情况是否加入本句代码)
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		/*String keywords = pd.getString("keywords");				//关键词检索条件
+		if(null != keywords && !"".equals(keywords)){
+			pd.put("keywords", keywords.trim());
+		}
+		page.setPd(pd);
+		List<PageData>	varList = sotemplateentryService.list_one(page);	//列出SOTemplateEntry列表
+		mv.setViewName("management/sotemplateentry/sotemplateentry_list");
+		mv.addObject("varList", varList);
+		mv.addObject("pd", pd);
+		mv.addObject("QX",Jurisdiction.getHC());	//按钮权限*/
+
+		Map<String,Object> dataMap = new HashMap<String,Object>();
+		List<String> titles = new ArrayList<String>();
+		titles.add("模板名称");	//1
+		titles.add("物料名称");	//2
+		titles.add("物料代码");	//3
+		titles.add("物料型号");	//4
+		titles.add("物料单位");	//5
+		titles.add("数量");	//6
+		dataMap.put("titles", titles);
+		page.setPd(pd);
+		List<PageData>	varOList = sotemplateentryService.list_one(page);	//列出SOTemplateEntry列表
+		List<PageData> varList = new ArrayList<PageData>();
+		for(int i=0;i<varOList.size();i++){
+			PageData vpd = new PageData();
+			vpd.put("var1", varOList.get(i).getString("FBILLNO"));	    //1
+			vpd.put("var2", varOList.get(i).getString("FNAME"));	//2
+			vpd.put("var3", varOList.get(i).getString("FNUMBER"));	//3
+			vpd.put("var4", varOList.get(i).getString("FMODEL"));	//4
+			vpd.put("var5", varOList.get(i).getString("FSALEUNIT"));	    //5
+			vpd.put("var6", varOList.get(i).get("FAUXQTY").toString());	//6
+			varList.add(vpd);
+		}
+		dataMap.put("varList", varList);
+		ObjectExcelView erv = new ObjectExcelView();
+		mv = new ModelAndView(erv,dataMap);
+		return mv;
+	}
 	
 	/**去新增页面
 	 * @param

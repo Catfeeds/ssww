@@ -150,6 +150,7 @@
 				-->
 				)
 		</if>
+		order BY c.FNUMBER
 	</select>
 	
 	<!-- 列表(全部) -->
