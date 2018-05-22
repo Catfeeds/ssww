@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
+import com.fh.service.item.impl.ItemService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -65,6 +67,9 @@ public class Template_OrderController extends BaseController {
 
     @Resource(name = "replenish_itemService")
     private Replenish_itemManager replenish_itemService;
+
+    @Resource(name="itemService")
+    ItemService itemService;
 
     public String getIpAndProjectName() throws Exception {
         String ip = null;
@@ -135,7 +140,7 @@ public class Template_OrderController extends BaseController {
         List<PageData> varList = salesorderbillentryService.list_oneOrder(page);
         List<PageData> repList = replenish_itemService.findBySALESORDERBILL_ID(pd);
         //System.out.println(varList);
-        System.out.println("pd:" + pd);
+        //System.out.println("varList:" + varList);
         mv.addObject("pd", pd);
         mv.addObject("pageData", pageData);
         mv.addObject("varList", varList);
@@ -217,7 +222,7 @@ public class Template_OrderController extends BaseController {
     }
 
     @RequestMapping(value = "/createOrder")
-    public ModelAndView createOrder(Page page) throws Exception {
+    public ModelAndView createOrder(Page page,HttpSession session) throws Exception {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
@@ -226,7 +231,7 @@ public class Template_OrderController extends BaseController {
             pd.put("FTEMPID", pd.getString("SOTEMPLATE_ID"));
         }
         page.setPd(pd);
-
+        pd.put("NOSOTEMPLATE_ID",session.getAttribute("NOSOTEMPLATE_ID"));
         PageData pageData = sotemplateService.findById(pd);
         if (pd.getString("SALESORDERBILL_ID") == null || "".equals(pd.getString("SALESORDERBILL_ID"))) {
             pd.put("SALESORDERBILL_ID", this.get32UUID());
@@ -236,7 +241,9 @@ public class Template_OrderController extends BaseController {
         mv.addObject("varList", varList);
         mv.addObject("pageData", pageData);
         mv.addObject("pd", pd);
-        System.out.println("create_pd:"+pd);
+
+        System.out.println("creat:::---->"+session.getAttribute("NOSOTEMPLATE_ID"));
+        //System.out.println("create_pd:"+pd);
         mv.addObject("repList", repList);
         mv.setViewName("wxqy/template_Order/createOrder");
         return mv;
@@ -244,7 +251,7 @@ public class Template_OrderController extends BaseController {
 
     @RequestMapping(value = "/save")
     @ResponseBody
-    public Map<String, Object> save(Page page) throws Exception {
+    public Map<String, Object> save(Page page,HttpSession session) throws Exception {
         Map<String, Object> json = new HashMap<String, Object>();
         PageData pd = new PageData();
         pd = this.getPageData();
@@ -253,12 +260,13 @@ public class Template_OrderController extends BaseController {
         pd.put("FSTATUS", 0);
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
-        String jsr = this.getBillNO();
+        PageData billnoPd = itemService.getBillNO(pd);
+        System.out.println(billnoPd);
+        /*String jsr = this.getBillNO();
         JSONObject jsonstr = JSONObject.fromObject(jsr);
-        System.out.println(jsonstr.getString(""));
-        pd.put("FBILLNO", jsonstr.getString(""));
-        /*String jsr = "dd11";
-        pd.put("FBILLNO", jsr);*/
+        System.out.println(jsonstr.getString(""));BillNO*/
+        pd.put("FBILLNO",billnoPd.getString("BillNO"));
+        //pd.put("FBILLNO", "11111");
         System.out.println(pd);
         salesorderbillService.save(pd);
         int count = 1;
@@ -292,7 +300,18 @@ public class Template_OrderController extends BaseController {
                 count++;
             }
         }
+        session.removeAttribute("NOSOTEMPLATE_ID");
         json.put("data", "");
+        return json;
+    }
+
+    @RequestMapping(value = "/updateNum")
+    @ResponseBody
+    public Map<String, Object> updateNum(Page page) throws Exception {
+        Map<String, Object> json = new HashMap<String, Object>();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        salesorderbillentryService.updateNum(pd);
         return json;
     }
 
@@ -364,10 +383,15 @@ public class Template_OrderController extends BaseController {
 
     //添加物料
     @RequestMapping(value = "/replenish_item")
-    public ModelAndView replenish_item(Page page) throws Exception {
+    public ModelAndView replenish_item(Page page,HttpSession session) throws Exception {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
+        System.out.println("--------------->"+pd.getString("NOSOTEMPLATE_ID"));
+        if(pd.getString("NOSOTEMPLATE_ID") != null && !"".equals(pd.getString("NOSOTEMPLATE_ID"))){
+            String noSOTEMPLATE_ID = session.getAttribute("NOSOTEMPLATE_ID")+","+pd.getString("NOSOTEMPLATE_ID");
+            session.setAttribute("NOSOTEMPLATE_ID",noSOTEMPLATE_ID);
+        }
         if (null != pd.getString("keywords") && !"".equals(pd.getString("keywords"))) {
             String keywords = URLDecoder.decode(pd.getString("keywords"), "UTF-8");                //关键词检索条件
             pd.put("keywords", keywords.trim());
@@ -386,13 +410,14 @@ public class Template_OrderController extends BaseController {
     //保存临时补充物料
     @RequestMapping(value = "/save_replenish_item")
     @ResponseBody
-    public Map<String, Object> save_replenish_item(Page page) throws Exception {
+    public Map<String, Object> save_replenish_item(Page page,HttpSession session) throws Exception {
         Map<String, Object> json = new HashMap<String, Object>();
         PageData pd = new PageData();
         pd = this.getPageData();
         PageData pd1 = new PageData();
-        System.out.println("jsonstr:" + pd.getString("jsonstr"));
-        System.out.println("pd:" + pd);
+        System.out.println("=======>"+session.getAttribute("NOSOTEMPLATE_ID"));
+        //System.out.println("jsonstr:" + pd.getString("jsonstr"));
+       // System.out.println("pd:" + pd);
         List<PageData> listSotemplateentry = sotemplateentryService.findBySOTEMPLATE_ID(pd);
         PageData pd2 = new PageData();
         StringBuffer arrStr = new StringBuffer();

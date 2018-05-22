@@ -66,6 +66,7 @@
 							<input type="hidden" name="CLIENT_ID" id="CLIENT_ID" value="${pageData.CLIENT_ID }"/>
 							<input type="hidden" name="FBILLNO" id="FBILLNO" value="${pageData.FBILLNO }"/>
 							<input type="hidden" name="SALESORDERBILL_ID" id="SALESORDERBILL_ID" value="${pd.SALESORDERBILL_ID }"/>
+							<input type="hidden" name="NOSOTEMPLATE_ID" id="NOSOTEMPLATE_ID" value="${pd.NOSOTEMPLATE_ID }"/>
 							<div class="aui-car-box-list-item-hread">
 								<div class="aui-car-box-list-text">
 									<h4>
@@ -87,28 +88,7 @@
 											日期：<b id="FDATE" class="price"></b>
 										</div>
 									</div>
-									<%-- <div class="aui-car-box-list-text-price">
-										<table style="width: 100%">
-											<tr>
-												<td>
-													<div class="aui-car-box-list-text-pri">
-														类别：<b class="price">${pageData.FTYPE }</b>
-													</div>
-												</td>
-												<!-- <td align="right">
-													<div align="right">
-														<input type="button"   value="保存" onclick="save()"
-															style="width: 48px;height: 22px"  />
-														<input type="button"   value="提交" onclick="sumbit()"
-															style="width: 48px;height: 22px"  />
-													</div>
-												</td> -->
-											</tr>
-										</table>
-										
-									</div> --%>
 								</div>
-	
 							</div>
 							<!-- 新增 -->
 							<c:if test="${not empty repList}">
@@ -166,7 +146,7 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										
 										<li>
-											<div class="aui-car-box-list-item" id="${var.SOTEMPLATEENTRY_ID}">
+											<div <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">style="display: none" </c:if> class="aui-car-box-list-item" id="${var.SOTEMPLATEENTRY_ID}">
 												<div class="aui-car-box-list-text">
 													<div class="float_div "
 														onclick="del('${var.SOTEMPLATEENTRY_ID}')">
@@ -195,6 +175,11 @@
 															<!-- <a href="javascript:;" class="minus">-</a> -->
 															<input type='number' id='${var.FITEMID}' name="${var.FENTRYID}" 
 																onfocus="this.select()"
+																   <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">value='0'  </c:if>
+																   <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == false}">
+																	   value='<fmt:formatNumber type="number"
+																 	value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>'
+																   </c:if>
 																 value='<fmt:formatNumber type="number"  
 																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' 
 																 style="width: 48px;height: 21px" class='ace' />
@@ -245,19 +230,26 @@
 	<!-- 删除时确认窗口 -->
 	<script src="static/ace/js/bootbox.js"></script>
 	<script type="text/javascript">
+		var arrayObj = new Array();
+
 		function del(value){
 			bootbox.confirm("确定要删除该物料吗?", function(result) {
 				if(result) {
-						$("#"+value).css("display","none");
-						$("#"+value+" .aui-car-box-list-text-arithmetic input").val(0);
-						//alert($("#"+value+".aui-car-box-list-text-arithmetic input").attr("name"));
+					arrayObj.push(value);
+					//alert(value);
+					//alert(arrayObj);
+					$("#"+value).css("display","none");
+					$("#"+value+" .aui-car-box-list-text-arithmetic input").val(0);
+					//alert($("#"+value+".aui-car-box-list-text-arithmetic input").attr("name"));
 					}
 			});
+
 		}
 		
 		function addItem(){
+			$("#NOSOTEMPLATE_ID").val(arrayObj);
 			window.location.href="<%=basePath%>template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"
-									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}';
+									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+arrayObj;
 		}
 		
 		var mydate = new Date();

@@ -118,8 +118,9 @@
           <element id="library" level="project" name="Maven: org.opensymphony.quartz:quartz:1.6.1" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-spring:1.4.0" />
           <element id="library" level="project" name="Maven: org.json:json:20170516" />
-          <element id="library" level="project" name="Maven: javax.mail:javax.mail-api:1.4.4" />
+          <element id="library" level="project" name="Maven: javax.mail:mail:1.4.5" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.4" />
           <element id="library" level="project" name="Maven: com.jslsolucoes:ojdbc6:11.2.0.1.0" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.jr:jackson-jr-all:2.9.0.pr3" />
           <element id="library" level="project" name="Maven: cn.jpush.api:jpush-client:2.2.0" />

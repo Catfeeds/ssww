@@ -183,11 +183,12 @@
 														数量：
 														</div>
 														<div class="aui-car-box-list-text-arithmetic">
-															<input type='number' id='${var.FITEMID}' name="${var.FENTRYID}" 
+															<input   type='number' id='${var.FITEMID}' name="${var.FENTRYID}"
 																<c:if test="${pageData.FSTATUS == 1}">
 																	readonly="readonly"
 																</c:if>
 																onfocus="this.select()"
+																onchange="changeNum('${var.SALESORDERBILLENTRY_ID}','${var.FITEMID}')"
 															  value='<fmt:formatNumber type="number"
 																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="1"/>'
 																   style="width: 48px;height: 21px" class='ace' />
@@ -234,6 +235,24 @@
 	<script src="static/ace/js/bootbox.js"></script>
 	<script type="text/javascript">
 		//window.opener.document.location.reload();
+		function changeNum(SALESORDERBILLENTRY_ID,FITEMID) {
+			var FAUXQTY = $("#"+FITEMID).val()
+			$.ajax({
+				url: "<%=basePath%>template_Order/updateNum",
+				type: "POST",
+				data: {
+					FAUXQTY : FAUXQTY,
+					SALESORDERBILLENTRY_ID : SALESORDERBILLENTRY_ID, //订单id
+				},
+				success: function(data){
+				},
+				error: function(){
+					alert("失败，请稍后重试！！");
+				},
+			});
+			//alert($("#"+FITEMID).val()+"-----"+SALESORDERBILLENTRY_ID);
+		}
+
 		var mydate = new Date();
 		function save(){
 			var FDEPTID = $("#FDEPTID").val();

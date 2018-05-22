@@ -41,6 +41,9 @@ public interface SalesOrderBillEntryManager{
 	 * @throws Exception
 	 */
 	public void toEditOrder(PageData pd)throws Exception;
+
+	public void updateNum(PageData pd)throws Exception;
+
 	/**列表
 	 * @param page
 	 * @throws Exception

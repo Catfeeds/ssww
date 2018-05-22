@@ -51,7 +51,11 @@ public class SalesOrderBillEntryService implements SalesOrderBillEntryManager{
 	public void edit(PageData pd)throws Exception{
 		dao.update("SalesOrderBillEntryMapper.edit", pd);
 	}
-	
+
+	public void updateNum(PageData pd)throws Exception{
+		dao.update("SalesOrderBillEntryMapper.updateNum", pd);
+	}
+
 	/**修改
 	 * @param pd
 	 * @throws Exception

@@ -154,6 +154,7 @@
        
        function selectedAndBack(){
        		var SALESORDERBILL_ID = "${pd.SALESORDERBILL_ID }";
+		    var NOSOTEMPLATE_ID = '${pd.NOSOTEMPLATE_ID}';
        		var jsonstr = '['; 
        		$(".aui-car-box-list-text .float_div").each(function(){
        			if($(this).css("display") != "none"){
@@ -170,6 +171,7 @@
 		    		type: "POST",
 					data: { 
 							SALESORDERBILL_ID : SALESORDERBILL_ID, //订单id
+							NOSOTEMPLATE_ID : NOSOTEMPLATE_ID,
 							jsonstr : jsonstr,
 						  }, 
 					success: function(data){
@@ -192,6 +194,7 @@
        function selected(){
        		var SALESORDERBILL_ID = "${pd.SALESORDERBILL_ID }";
 		   	var SOTEMPLATE_ID = '${pd.SOTEMPLATE_ID }';
+		   	var NOSOTEMPLATE_ID = '${pd.NOSOTEMPLATE_ID}';
        		var jsonstr = '[';
        		$(".aui-car-box-list-text .float_div").each(function(){
        			if($(this).css("display") != "none"){
@@ -209,7 +212,8 @@
 					data: { 
 							SALESORDERBILL_ID : SALESORDERBILL_ID, //订单id
 							jsonstr : jsonstr,
-							SOTEMPLATE_ID : SOTEMPLATE_ID
+							SOTEMPLATE_ID : SOTEMPLATE_ID,
+							NOSOTEMPLATE_ID : NOSOTEMPLATE_ID
 						  }, 
 					success: function(data){
 							//window.location.href = document.referrer;//返回上一页并刷新

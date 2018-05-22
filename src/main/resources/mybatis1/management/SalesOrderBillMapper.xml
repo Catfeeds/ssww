@@ -122,7 +122,13 @@
 		where 
 			SALESORDERBILL_ID = #{SALESORDERBILL_ID}
 	</select>
-	
+
+	<!--<select id="getBillNO" parameterType="page" resultType="pd">
+		Declare @BillNO	Varchar(100)
+		Exec CR_ICBillNo 1,3,81,@BillNO Output
+		Select @BillNO AS BillNO
+	</select>-->
+
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
 		select

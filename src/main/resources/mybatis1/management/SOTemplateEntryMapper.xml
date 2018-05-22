@@ -88,7 +88,7 @@
 		where 
 		FTEMPID = #{FTEMPID} and FITEMID = #{FITEMID}
 	</update>
-	
+
 	<!-- 通过ID获取数据 -->
 	<select id="findById" parameterType="pd" resultType="pd">
 		select 

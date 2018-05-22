@@ -80,7 +80,9 @@ public interface SalesOrderBillManager{
 	public List<PageData> list_ClientOrderCount(Page page)throws Exception;
 
 	public PageData list_withSALESORDERBILL_ID(PageData pd)throws Exception;
-	
+
+	/*public PageData getBillNO(PageData pd)throws Exception;*/
+
 	/**列表(全部)
 	 * @param pd
 	 * @throws Exception

@@ -86,6 +86,15 @@
 		where 
 		SALESORDERBILLENTRY_ID = #{SALESORDERBILLENTRY_ID}
 	</update>
+
+	<update id="updateNum" parameterType="pd">
+		update
+		<include refid="tableName"></include>
+		set
+		FAUXQTY = #{FAUXQTY}
+		where
+		SALESORDERBILLENTRY_ID = #{SALESORDERBILLENTRY_ID}
+	</update>
 	
 	<update id="toEditOrder" parameterType="pd">
 		update
