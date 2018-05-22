@@ -146,7 +146,7 @@
 									<c:forEach items="${varList}" var="var" varStatus="vs">
 										
 										<li>
-											<div <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">style="display: none" </c:if> class="aui-car-box-list-item" id="${var.SOTEMPLATEENTRY_ID}">
+											<div<%-- <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">style="display: none" </c:if>--%> class="aui-car-box-list-item" id="${var.SOTEMPLATEENTRY_ID}">
 												<div class="aui-car-box-list-text">
 													<div class="float_div "
 														onclick="del('${var.SOTEMPLATEENTRY_ID}')">
@@ -173,13 +173,13 @@
 														</div>
 														<div class="aui-car-box-list-text-arithmetic">
 															<!-- <a href="javascript:;" class="minus">-</a> -->
-															<input type='number' id='${var.FITEMID}' name="${var.FENTRYID}" 
+															<input type='number' id='${var.FITEMID}' name="${var.SOTEMPLATEENTRY_ID}"
 																onfocus="this.select()"
-																   <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">value='0'  </c:if>
+																   <%--<c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">value='0'  </c:if>
 																   <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == false}">
 																	   value='<fmt:formatNumber type="number"
 																 	value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>'
-																   </c:if>
+																   </c:if>--%>
 																 value='<fmt:formatNumber type="number"  
 																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' 
 																 style="width: 48px;height: 21px" class='ace' />
@@ -247,9 +247,41 @@
 		}
 		
 		function addItem(){
+			save_replenishEntry();
 			$("#NOSOTEMPLATE_ID").val(arrayObj);
 			window.location.href="<%=basePath%>template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"
 									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+arrayObj;
+		}
+
+		function save_replenishEntry(){
+			var SALESORDERBILL_ID = $("#SALESORDERBILL_ID").val();
+			var jsonstr = '[';
+			$('.aui-car-box-list-text-arithmetic input').each(function(){
+						if($(this).val() != "0" &&$(this).val()!=null){
+							jsonstr += '{';
+							jsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';
+							jsonstr += '"SOTEMPLATEENTRY_ID":"' +$(this).attr("name")+ '",';
+							jsonstr += '"FAUXQTY":"' +$(this).val();
+							jsonstr += '"}';
+							jsonstr += ',';
+						}
+					}
+			);
+			jsonstr = jsonstr.substring(0, jsonstr.length - 1);
+			jsonstr += ']';
+			$.ajax({
+				url: "<%=basePath%>template_Order/save_replenishEntry",
+				type: "POST",
+				data: {
+					jsonstr : jsonstr,
+					SALESORDERBILL_ID : SALESORDERBILL_ID
+				},
+				success: function(data){
+				},
+				error: function(){
+					alert("失败，请稍后重试！！");
+				},
+			});
 		}
 		
 		var mydate = new Date();

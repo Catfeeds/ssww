@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import com.fh.service.item.impl.ItemService;
+import com.fh.service.management.replenishentry.ReplenishEntryManager;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -70,6 +71,9 @@ public class Template_OrderController extends BaseController {
 
     @Resource(name="itemService")
     ItemService itemService;
+
+    @Resource(name="replenishentryService")
+    private ReplenishEntryManager replenishentryService;
 
     public String getIpAndProjectName() throws Exception {
         String ip = null;
@@ -231,21 +235,28 @@ public class Template_OrderController extends BaseController {
             pd.put("FTEMPID", pd.getString("SOTEMPLATE_ID"));
         }
         page.setPd(pd);
-        pd.put("NOSOTEMPLATE_ID",session.getAttribute("NOSOTEMPLATE_ID"));
+        //pd.put("NOSOTEMPLATE_ID",session.getAttribute("NOSOTEMPLATE_ID"));
         PageData pageData = sotemplateService.findById(pd);
         if (pd.getString("SALESORDERBILL_ID") == null || "".equals(pd.getString("SALESORDERBILL_ID"))) {
             pd.put("SALESORDERBILL_ID", this.get32UUID());
         }
-        List<PageData> varList = sotemplateentryService.list_one(page);
+        List<PageData> varList = null;
+        varList = replenishentryService.list_ByOrder(pd);
+        System.out.println(varList);
+        if(varList.size() == 0){
+            varList = sotemplateentryService.list_one(page);
+        }
+        //List<PageData>
         List<PageData> repList = replenish_itemService.findBySALESORDERBILL_ID(pd);
         mv.addObject("varList", varList);
         mv.addObject("pageData", pageData);
         mv.addObject("pd", pd);
 
-        System.out.println("creat:::---->"+session.getAttribute("NOSOTEMPLATE_ID"));
+        //System.out.println("creat:::---->"+session.getAttribute("NOSOTEMPLATE_ID"));
         //System.out.println("create_pd:"+pd);
         mv.addObject("repList", repList);
         mv.setViewName("wxqy/template_Order/createOrder");
+        replenishentryService.deleteAll(pd);
         return mv;
     }
 
@@ -375,6 +386,34 @@ public class Template_OrderController extends BaseController {
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
                 salesorderbillentryService.save(pd1);
                 count++;
+            }
+        }
+        json.put("data", "");
+        return json;
+    }
+
+    @RequestMapping(value = "/save_replenishEntry")
+    @ResponseBody
+    public Map<String, Object> save_replenishEnry(Page page) throws Exception {
+        Map<String, Object> json = new HashMap<String, Object>();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        int count = 1;
+        if (pd.getString("jsonstr").length() > 2) {
+            JSONArray jsStr = JSONArray.fromObject(pd.getString("jsonstr"));
+            PageData pd1 = new PageData();
+            for (int i = 0; i < jsStr.size(); i++) {
+                JSONObject job = jsStr.getJSONObject(i);  // 遍历 jsonarray 数组，把每一个对象转成 json 对象
+                if (Double.parseDouble(job.getString("FAUXQTY")) > 0) {
+                    pd1.put("REPLENISHENTRY_ID", this.get32UUID());
+                    pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
+                    pd1.put("FITEMID", job.getString("FITEMID"));
+                    pd1.put("SOTEMPLATEENTRY_ID",job.getString("SOTEMPLATEENTRY_ID"));
+                    pd1.put("FENTRYID", count);
+                    pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
+                    replenishentryService.save(pd1);
+                    count++;
+                }
             }
         }
         json.put("data", "");
