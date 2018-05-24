@@ -92,7 +92,6 @@ public class Template_OrderController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         page.setPd(pd);
-        System.out.println(page.getPd());
         List<PageData> varList = sotemplateService.listSotemplate(page);//模板
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH) + 1;
@@ -120,7 +119,6 @@ public class Template_OrderController extends BaseController {
         }
         pd.put("FDATE", FDATE);
         page.setPd(pd);
-        System.out.println("pd:"+pd);
         List<PageData> list = salesorderbillService.list_withFtype(page);
         mv.addObject("varList", varList);
         mv.addObject("list", list);
@@ -159,7 +157,6 @@ public class Template_OrderController extends BaseController {
         Map<String, Object> json = new HashMap<String, Object>();
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println(pd);
         if (pd.getString("jsonstr").length() > 2) {
             JSONArray jsStr = JSONArray.fromObject(pd.getString("jsonstr"));
             PageData pd1 = new PageData();
@@ -194,7 +191,6 @@ public class Template_OrderController extends BaseController {
         Map<String, Object> json = new HashMap<String, Object>();
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println(pd);
         pd.put("FSTATUS", 1);
         salesorderbillService.editOrderAndSum(pd);
         if (pd.getString("jsonstr").length() > 2) {
@@ -242,7 +238,6 @@ public class Template_OrderController extends BaseController {
         }
         List<PageData> varList = null;
         varList = replenishentryService.list_ByOrder(pd);
-        System.out.println(varList);
         if(varList.size() == 0){
             varList = sotemplateentryService.list_one(page);
         }
@@ -272,13 +267,8 @@ public class Template_OrderController extends BaseController {
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
         PageData billnoPd = itemService.getBillNO(pd);
-        System.out.println(billnoPd);
-        /*String jsr = this.getBillNO();
-        JSONObject jsonstr = JSONObject.fromObject(jsr);
-        System.out.println(jsonstr.getString(""));BillNO*/
         pd.put("FBILLNO",billnoPd.getString("BillNO"));
         //pd.put("FBILLNO", "11111");
-        System.out.println(pd);
         salesorderbillService.save(pd);
         int count = 1;
         if (pd.getString("jsonstr").length() > 2) {
@@ -333,9 +323,19 @@ public class Template_OrderController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         pd.put("FSTATUS", 1);
-        System.out.println(pd);
         String strArr[] = pd.getString("strArr").split(",");
         salesorderbillService.editSomeOrder(strArr);
+        return json;
+    }
+
+    @RequestMapping(value = "/delOrder")
+    @ResponseBody
+    public Map<String, Object> delOrder(Page page) throws Exception {
+        Map<String, Object> json = new HashMap<String, Object>();
+        PageData pd = new PageData();
+        pd = this.getPageData();
+        String item[] = pd.getString("strArr").split(",");
+        salesorderbillService.deleteAll(item);
         return json;
     }
 
@@ -350,12 +350,8 @@ public class Template_OrderController extends BaseController {
         pd.put("FSTATUS", 1);
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
-        String jsr = this.getBillNO();
-        JSONObject jsonstr = JSONObject.fromObject(jsr);
-//		 JSONArray jsonarr = jsr.getJSONArray("Data");
-        System.out.println(jsonstr.getString(""));
-        pd.put("FBILLNO", jsonstr.getString(""));
-        System.out.println(pd);
+        PageData billnoPd = itemService.getBillNO(pd);
+        pd.put("FBILLNO",billnoPd.getString("BillNO"));
         salesorderbillService.save(pd);
         int count = 1;
         if (pd.getString("jsonstr").length() > 2) {
@@ -392,6 +388,7 @@ public class Template_OrderController extends BaseController {
         return json;
     }
 
+
     @RequestMapping(value = "/save_replenishEntry")
     @ResponseBody
     public Map<String, Object> save_replenishEnry(Page page) throws Exception {
@@ -426,7 +423,6 @@ public class Template_OrderController extends BaseController {
         ModelAndView mv = this.getModelAndView();
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println("--------------->"+pd.getString("NOSOTEMPLATE_ID"));
         if(pd.getString("NOSOTEMPLATE_ID") != null && !"".equals(pd.getString("NOSOTEMPLATE_ID"))){
             String noSOTEMPLATE_ID = session.getAttribute("NOSOTEMPLATE_ID")+","+pd.getString("NOSOTEMPLATE_ID");
             session.setAttribute("NOSOTEMPLATE_ID",noSOTEMPLATE_ID);
@@ -441,7 +437,6 @@ public class Template_OrderController extends BaseController {
 
         }
         mv.addObject("pd", pd);
-        System.out.println(pd);
         mv.setViewName("wxqy/template_Order/replenish_item");
         return mv;
     }
@@ -454,7 +449,6 @@ public class Template_OrderController extends BaseController {
         PageData pd = new PageData();
         pd = this.getPageData();
         PageData pd1 = new PageData();
-        System.out.println("=======>"+session.getAttribute("NOSOTEMPLATE_ID"));
         //System.out.println("jsonstr:" + pd.getString("jsonstr"));
        // System.out.println("pd:" + pd);
         List<PageData> listSotemplateentry = sotemplateentryService.findBySOTEMPLATE_ID(pd);
@@ -474,7 +468,7 @@ public class Template_OrderController extends BaseController {
                         pd2.put("FITEMID",job.getString("FITEMID"));
                         pd2 = itembaseService.findByFITEMID(pd2);
                         arrStr.append(pd2.getString("FNAME")+"，");
-                        System.out.println("arrStr:"+arrStr);
+                        //System.out.println("arrStr:"+arrStr);
 
                     }
                 }
@@ -536,7 +530,6 @@ public class Template_OrderController extends BaseController {
     public void delete(PrintWriter out) throws Exception {
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println(pd);
         salesorderbillentryService.delete(pd);
         out.write("success");
         out.close();
@@ -552,7 +545,6 @@ public class Template_OrderController extends BaseController {
     public void deleteByREPLENISH_ITEM_ID(PrintWriter out) throws Exception {
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println(pd);
         replenish_itemService.delete(pd);
         out.write("success");
         out.close();
@@ -568,7 +560,6 @@ public class Template_OrderController extends BaseController {
     public void deleteAllDate(PrintWriter out) throws Exception {
         PageData pd = new PageData();
         pd = this.getPageData();
-        System.out.println(pd);
         replenish_itemService.deleteAllDate(pd);
         out.write("success");
         out.close();

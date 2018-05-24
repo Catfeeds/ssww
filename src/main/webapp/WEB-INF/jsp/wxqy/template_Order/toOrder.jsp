@@ -255,21 +255,22 @@
 														<div class="order_title">
 															<table style="width: 100%">
 																<tr>
-																	<td>订单编号：<em style="margin-left: 3%">${var.FBILLNO}</em></td>
+																	<td style="height: 33px;height: 33px">订单编号：<em style="margin-left: 3%">${var.FBILLNO}</em></td>
 																	<td style="width: 10%"><a
 																		onclick="edit('${var.SALESORDERBILL_ID}')"
 																		style="margin-top: 5px;width:65px;text-align: center;display: block;
-																			height: 28px;line-height: 28px;
+																			height: 33px;line-height: 33px;
 																			<c:if test="${var.FSTATUS == 0}">
 																				background: #666666;
 																			</c:if>
 																			<c:if test="${var.FSTATUS == 1}">
 																				background: #CC9966;
 																			</c:if>
-																			border-radius: 15px;color: #fff;font-size: 14px;margin-right:5px;">
 																			<c:if test="${var.FSTATUS == 0}">
-																				修改订单
-																			</c:if> <c:if test="${var.FSTATUS == 1}">
+																					display: none;
+																			</c:if>
+																			border-radius: 15px;color: #fff;font-size: 14px;margin-right:5px;">
+																			 <c:if test="${var.FSTATUS == 1}">
 																				查看订单
 																			</c:if> </a></td>
 																</tr>
@@ -379,21 +380,21 @@
 									<div id="history" class="order_box" style="padding: 10px;margin-top: -10px">
 										<div class="weui-cells weui-cells_form">
 											<div class="weui-cell">
-									        <div class="weui-cell__hd"><label for="date" class="weui-label">订单日期</label></div>
-									        <div class="weui-cell__bd">
-									        <table>
-									        	<tr>
-									        		<td style="width: 40%;"align="center">
-									        			<input class="weui-input" id="date" type="text" >
-									        		</td>
-									        		<td align="center">至</td>
-									        		<td style="width: 40%;"align="center">
-									        			<input class="weui-input" id="date1" type="text" >
-									        		</td>
-									        	</tr>
-									        </table>
-									        </div>
-									      </div>
+												<div class="weui-cell__hd"><label style="font-size: 15px;width: 100%; margin-left: 0px" for="date" class="weui-label">订单日期</label></div>
+												<div class="weui-cell__bd" style="margin-left: 5%">
+													<table style="width: 100%">
+														<tr align="center">
+															<td align="center" style="padding-left: 1%; width: 40%;font-size: 15px">
+																<input class="weui-input" id="date" type="text" >
+															</td>
+															<td align="center"  style="font-size: 15px;margin-right: 5%">至</td>
+															<td align="center" style="padding-left: 2%; width: 40%;font-size: 15px;margin-left: 10%">
+																<input class="weui-input" id="date1" type="text" >
+															</td>
+														</tr>
+													</table>
+												</div>
+											</div>
 									      <c:if test="${not empty hisToryList}">
 											<c:forEach items="${hisToryList}" var="var" varStatus="vs">
 												<div class="withdrawals-panel"
@@ -503,11 +504,32 @@
 								</div>
 								<div class="aui-invitation-footer">
 									<a onclick="create()" id="create"
-										style="width:90%; background:#0099CC;display: none">创建订单</a> <a
-										onclick="sumbit()" id="sumbit"
-										style="width:90%; background:#0099CC;display: ">提交</a>
+										style="width:90%; background:#0099CC;display: none">创建订单</a>
+									<table id="sumbit" style="width: 100%;margin-left: 3%">
+										<tr>
+											<td width="33%;">
+												<a
+													onclick="edit()"
+													style="width: 70%; background:#0099CC;">修改
+												</a>
+											</td>
+											<td width="33%;">
+												<a
+													onclick="delOrder()"
+													style="width: 70%; background:#0099CC;">删除
+												</a>
+											</td>
+											<td width="33%;">
+												<a
+													onclick="sumbit()"
+													style="width: 70%; background:#0099CC;">提交
+												</a>
+											</td>
+										</tr>
+									</table>
 									<a onclick="searchByDate()" id="searchByDate"
 										style="width:90%; background:#0099CC;display: none">开始查询</a>
+
 								</div>
 							</div>
 							
@@ -536,8 +558,8 @@
 	<%-- <%@ include file="../../system/index/foot.jsp"%> --%>
 	<!-- ace scripts -->
 	<!-- <script src="static/ace/js/ace/ace.js"></script> -->
-	<link rel="stylesheet" href="static/css/jquery-confirm.css">
-	<script src="static/js/jquery-confirm.js"></script>
+	<%--<link rel="stylesheet" href="static/css/jquery-confirm.css">
+	<script src="static/js/jquery-confirm.js"></script>--%>
 	<script>
 	  $(function() {
 	    FastClick.attach(document.body);
@@ -723,51 +745,96 @@
 			
 			//alert(create);
        }
-       
+
+
+
        function sumbit(){
-       		$.confirm({
-			    title: '是否提交改订单？',
-			    boxWidth: '80%',
-			    content: '',
-			    buttons: {
-			   		     提交: function () {
-			            var count = 0;
-			       		var strArr = "";
-			       		$("#order .withdrawals-panel").each(function() {
-			       			//alert($(this).val());
-						    if($(this).val() == "yes"){
-						    	strArr += $(this).attr("id");
-						    	strArr += ",";
-						    }
-						});
-						strArr = strArr.substring(0, strArr.length - 1);
-						if(strArr.length > 2){
-							$.ajax({
-					    		url: "<%=basePath%>template_Order/SomeSumbit",
-					    		type: "POST",
-								data: { 
-										strArr : strArr,
-									  }, 
-								success: function(data){
-										window.location.reload();
-					   				 }, 
-					   			error: function(){
-					        		alert("失败，请稍后重试！！");
-					    		},
-							});
-						}else{
-							//alert("请选择提交的订单...");
-						}
-			        },
-			     		   取消: function () {
-			        },
-			    }
-			});
-		       		
+		   $.confirm("是否提交已选中订单？", "", function() {
+			   var count = 0;
+			   var strArr = "";
+			   $("#order .withdrawals-panel").each(function() {
+				   //alert($(this).val());
+				   if($(this).val() == "yes"){
+					   strArr += $(this).attr("id");
+					   strArr += ",";
+				   }
+			   });
+			   strArr = strArr.substring(0, strArr.length - 1);
+			   if(strArr.length > 2){
+				   $.ajax({
+					   url: "<%=basePath%>template_Order/SomeSumbit",
+					   type: "POST",
+					   data: {
+						   strArr : strArr,
+					   },
+					   success: function(data){
+						   window.location.reload();
+					   },
+					   error: function(){
+						   alert("失败，请稍后重试！！");
+					   },
+				   });
+			   }else{
+				   //alert("请选择提交的订单...");
+			   }
+		   }, function() {
+
+		   });
        }
+
+		function delOrder() {
+			var strArr = "";
+			$("#order .withdrawals-panel").each(function() {
+				//alert($(this).val());
+				if($(this).val() == "yes"){
+					strArr += $(this).attr("id");
+					strArr += ",";
+				}
+			});
+			strArr = strArr.substring(0, strArr.length - 1);
+			if(strArr.length < 3 ){
+				alert("请选择一项修改项");
+				return;
+			}
+			$.confirm("是否删除已选中订单？", "", function() {
+				$.ajax({
+					url: "<%=basePath%>template_Order/delOrder",
+					type: "POST",
+					data: {
+						strArr : strArr
+					},
+					success: function(data){
+						window.location.reload();
+					},
+					error: function(){
+						alert("失败，请稍后重试！！");
+					},
+				});
+			}, function() {
+
+			});
+		}
        
-       function edit(value){
-       		window.location.href="<%=basePath%>template_Order/toEditOrder?SALESORDERBILL_ID=" + value + "&USERID="+'${pd.USERID}';
+       function edit(){
+		   var strArr = "";
+		   $("#order .withdrawals-panel").each(function() {
+			   //alert($(this).val());
+			   if($(this).val() == "yes"){
+				   strArr += $(this).attr("id");
+				   strArr += ",";
+			   }
+		   });
+		   strArr = strArr.substring(0, strArr.length - 1);
+		   //alert(strArr.indexOf(','));
+		   if(strArr.indexOf(',') != -1){
+			   alert("只能选择一项修改项");
+			   return;
+		   }
+		   if(strArr.length < 3 ){
+			   alert("请选择一项修改项");
+			   return;
+		   }
+		   window.location.href="<%=basePath%>template_Order/toEditOrder?SALESORDERBILL_ID=" + strArr + "&USERID="+'${pd.USERID}';
 		}
 
 		function _touch() {
