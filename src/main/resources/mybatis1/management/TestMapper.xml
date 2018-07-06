@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="Replenish_itemMapper">
+<mapper namespace="TestMapper">
 	
 	<!--表名 -->
 	<sql id="tableName">
-		TB_REPLENISH_ITEM
+		TB_TEST
 	</sql>
 	
 	<!-- 字段 -->
 	<sql id="Field">
-		FITEMID,	
-		FAUXQTY,	
-		SALESORDERBILL_ID,	
-		FREMARK,	
-		REPLENISH_ITEM_ID
+		NAME,	
+		AGE,	
+		SEX,	
+		TEST_ID
 	</sql>
 	
 	<!-- 字段值 -->
 	<sql id="FieldValue">
-		#{FITEMID},	
-		#{FAUXQTY},	
-		#{SALESORDERBILL_ID},	
-		#{FREMARK},	
-		#{REPLENISH_ITEM_ID}
+		#{NAME},	
+		#{AGE},	
+		#{SEX},	
+		#{TEST_ID}
 	</sql>
 	
 	<!-- 新增-->
@@ -41,13 +39,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			REPLENISH_ITEM_ID = #{REPLENISH_ITEM_ID}
-	</delete>
-	
-	<!-- 删除-->
-	<delete id="deleteAllDate" parameterType="pd">
-		delete from
-		<include refid="tableName"></include>
+			TEST_ID = #{TEST_ID}
 	</delete>
 	
 	<!-- 修改 -->
@@ -55,13 +47,12 @@
 		update
 		<include refid="tableName"></include>
 		set 
-			FITEMID = #{FITEMID},
-			FAUXQTY = #{FAUXQTY},
-			SALESORDERBILL_ID = #{SALESORDERBILL_ID},
-			FREMARK = #{FREMARK},
-		REPLENISH_ITEM_ID = REPLENISH_ITEM_ID
+			NAME = #{NAME},
+			AGE = #{AGE},
+			SEX = #{SEX},
+		TEST_ID = TEST_ID
 		where 
-		REPLENISH_ITEM_ID = #{REPLENISH_ITEM_ID}
+		TEST_ID = #{TEST_ID}
 	</update>
 	
 	<!-- 通过ID获取数据 -->
@@ -71,16 +62,7 @@
 		from 
 		<include refid="tableName"></include>
 		where 
-			REPLENISH_ITEM_ID = #{REPLENISH_ITEM_ID}
-	</select>
-	
-	<!-- 通过SALESORDERBILL_ID获取数据 -->
-	<select id="findBySALESORDERBILL_ID" parameterType="pd" resultType="pd">
-		select * from
-		TB_REPLENISH_ITEM r LEFT JOIN TB_ITEMBASE i ON r.FITEMID = i.FITEMID
-		where 
-			SALESORDERBILL_ID = #{SALESORDERBILL_ID}
-			ORDER BY i.FNUMBER
+			TEST_ID = #{TEST_ID}
 	</select>
 	
 	<!-- 列表 -->
@@ -115,7 +97,7 @@
 		delete from
 		<include refid="tableName"></include>
 		where 
-			REPLENISH_ITEM_ID in
+			TEST_ID in
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
                  #{item}
 		</foreach>

@@ -136,7 +136,7 @@
 																	</c:if>
 																	onfocus="this.select()"
 																	   value='<fmt:formatNumber type="number"
-																 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="1"/>'
+																 value="${var.FAUXQTY}" pattern="0.000" maxFractionDigits="3"/>'
 																	   style="width: 48px;height: 21px" class='ace' />
 															</div>
 														</div>

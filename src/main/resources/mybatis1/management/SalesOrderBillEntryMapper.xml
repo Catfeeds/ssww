@@ -119,6 +119,7 @@
 		select * from 
 		TB_SALESORDERBILLENTRY s LEFT JOIN TB_ITEMBASE i ON s.FITEMID = i.FITEMID
 		where SALESORDERBILL_ID = #{pd.SALESORDERBILL_ID}
+		ORDER BY i.FNUMBER
 	</select>
 	
 	<select id="list_salesOrderEntry" parameterType="page" resultType="pd">

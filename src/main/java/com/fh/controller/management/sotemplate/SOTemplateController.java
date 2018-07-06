@@ -101,7 +101,7 @@ public class SOTemplateController extends BaseController {
 			pd1.put("FTEMPID", SOTEMPLATE_ID);
 			pd1.put("SOTEMPLATE_ID", SOTEMPLATE_ID);
 			pd1.put("FITEMID", job.getString("FITEMID"));
-			pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+			pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
 			sotemplateentryService.save(pd1);
 			count++;
 		}
@@ -140,7 +140,7 @@ public class SOTemplateController extends BaseController {
 				pd1.put("FTEMPID", SOTEMPLATE_ID);
 				pd1.put("SOTEMPLATE_ID", SOTEMPLATE_ID);
 				pd1.put("FITEMID", job.getString("FITEMID"));
-				pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+				pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
 				sotemplateentryService.save(pd1);
 				count++;
 			}
@@ -215,7 +215,7 @@ public class SOTemplateController extends BaseController {
 				pd1.put("FTEMPID", SOTEMPLATE_ID);
 				pd1.put("SOTEMPLATE_ID", SOTEMPLATE_ID);
 				pd1.put("FITEMID", job.getString("FITEMID"));
-				pd1.put("FAUXQTY", Integer.parseInt(job.getString("FAUXQTY")));
+				pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
 				sotemplateentryService.save(pd1);
 				count++;
 			}
@@ -229,7 +229,7 @@ public class SOTemplateController extends BaseController {
 				pd2.put("FTEMPID", SOTEMPLATE_ID);
 				pd2.put("SOTEMPLATE_ID", SOTEMPLATE_ID);
 				pd2.put("FITEMID", job1.getString("FITEMID"));
-				pd2.put("FAUXQTY", Integer.parseInt(job1.get("FAUXQTY").toString()));
+				pd2.put("FAUXQTY", Double.parseDouble(job1.get("FAUXQTY").toString()));
 				sotemplateentryService.edit_qty(pd2);
 			}
 		}

@@ -148,7 +148,7 @@
 												<td class='left'>${var.FNAME}</td>
 												<td class='left'>${var.FMODEL}</td>
 												<td class='left'>
-													<input type='number' id='${var.FITEMID}'  value='<fmt:formatNumber type="number" value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' class='ace' />
+													<input type='number' id='${var.FITEMID}'  value='<fmt:formatNumber type="number" value="${var.FAUXQTY}" pattern="0" maxFractionDigits="4"/>' class='ace' />
 												</td>
 												<td class="center">
 													<a class="btn btn-xs btn-danger" 

@@ -101,7 +101,7 @@
 								<c:when test="${not empty varList}">
 									<c:if test="${QX.cha == 1 }">
 									<c:forEach items="${varList}" var="var" varStatus="vs">
-										<tr onclick="list_one('${var.SOTEMPLATE_ID}')">
+										<tr <%--onclick="list_one('${var.SOTEMPLATE_ID}')"--%>>
 											<td class='center'>
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.SOTEMPLATE_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
@@ -162,9 +162,9 @@
 
 	</div>
 	<!-- /.main-container -->
-		<div id="divlist_one" style="width: 100%;height:350px;border:1px solid #F00;display: none" >
+		<%--<div id="divlist_one" style="width: 100%;height:350px;border:1px solid #F00;display: none" >
 			<iframe id="list_one" style="width: 100%;height: 100%" src="<%=basePath%>sotemplateentry/list_one"></iframe>
-		</div>
+		</div>--%>
 	<!-- basic scripts -->
 	<!-- 页面底部js¨ -->
 	<%@ include file="../../system/index/foot.jsp"%>

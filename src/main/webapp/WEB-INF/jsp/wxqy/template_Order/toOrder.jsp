@@ -243,7 +243,7 @@
 											<c:forEach items="${list}" var="var" varStatus="vs">
 												<div class="withdrawals-panel"
 													<c:if test="${var.FSTATUS == 1}">
-														name="yes" 
+														name="yes"
 													</c:if>
 													<c:if test="${var.FSTATUS == 0}">
 														name = "no" 
@@ -256,8 +256,11 @@
 															<table style="width: 100%">
 																<tr>
 																	<td style="height: 33px;height: 33px">订单编号：<em style="margin-left: 3%">${var.FBILLNO}</em></td>
-																	<td style="width: 10%"><a
-																		onclick="edit('${var.SALESORDERBILL_ID}')"
+																	<%--<td style="width: 10%"><a
+																		&lt;%&ndash;onclick="edit('${var.SALESORDERBILL_ID}')"&ndash;%&gt;
+																			&lt;%&ndash;<c:if test="${var.FSTATUS == 1}">
+																				onclick="openOrder('${var.SALESORDERBILL_ID}')"
+																			</c:if>&ndash;%&gt;
 																		style="margin-top: 5px;width:65px;text-align: center;display: block;
 																			height: 33px;line-height: 33px;
 																			<c:if test="${var.FSTATUS == 0}">
@@ -272,7 +275,7 @@
 																			border-radius: 15px;color: #fff;font-size: 14px;margin-right:5px;">
 																			 <c:if test="${var.FSTATUS == 1}">
 																				查看订单
-																			</c:if> </a></td>
+																			</c:if> </a></td>--%>
 																</tr>
 															</table>
 
@@ -303,7 +306,7 @@
 																				<em style="margin-left:5%">草稿</em>
 																		</h2>
 																		</c:if> <c:if test="${var.FSTATUS == 1}">
-																			<em style="margin-left:5%">已提交</em>
+																				<em >已提交</em>
 																			</h2>
 																		</c:if></td>
 																	<td align="right" style="margin-right: 45px">
@@ -412,8 +415,11 @@
 																<tr>
 																	<td>订单编号：<em style="margin-left: 3%">${var.FBILLNO}</em></td>
 																	<td style="width: 10%"><a
-																		onclick="edit('${var.SALESORDERBILL_ID}')"
-																		style="margin-top: 5px;width:65px;text-align: center;display: block;
+
+																			<c:if test="${var.FSTATUS == 1}">
+																				onclick="openOrder('${var.SALESORDERBILL_ID}')"
+																			</c:if>
+																			style="margin-top: 5px;width:65px;text-align: center;display: block;
 																			height: 28px;line-height: 28px;
 																			<c:if test="${var.FSTATUS == 0}">
 																				background: #666666;
@@ -424,7 +430,8 @@
 																			border-radius: 15px;color: #fff;font-size: 14px;margin-right:5px;">
 																			<c:if test="${var.FSTATUS == 0}">
 																				修改订单
-																			</c:if> <c:if test="${var.FSTATUS == 1}">
+																			</c:if>
+																			<c:if test="${var.FSTATUS == 1}">
 																				查看订单
 																			</c:if> </a></td>
 																</tr>
@@ -507,19 +514,25 @@
 										style="width:90%; background:#0099CC;display: none">创建订单</a>
 									<table id="sumbit" style="width: 100%;margin-left: 3%">
 										<tr>
-											<td width="33%;">
+											<td width="25%;">
 												<a
 													onclick="edit()"
 													style="width: 70%; background:#0099CC;">修改
 												</a>
 											</td>
-											<td width="33%;">
+											<td width="25%;">
+												<a
+														onclick="openOrder()"
+														style="width: 70%; background:#0099CC;">查看订单
+												</a>
+											</td>
+											<td width="25%;">
 												<a
 													onclick="delOrder()"
 													style="width: 70%; background:#0099CC;">删除
 												</a>
 											</td>
-											<td width="33%;">
+											<td width="25%;">
 												<a
 													onclick="sumbit()"
 													style="width: 70%; background:#0099CC;">提交
@@ -585,8 +598,10 @@
 	</script>
 	<script src="static/jquery-weui-build/lib/fastclick.js"></script>
 	<script type="text/javascript">
+		var isEdit = "";
 		function checkbox(value1,value2){
-			if(value2 == 0 && $("#"+value1).val() != "yes"){
+			isEdit = "";
+			if(/*value2 == 0 && */$("#"+value1).val() != "yes"){
 				$("#"+value1).css("background-color","#0099CC"); 
 				$("#"+value1).val("yes");
 			}else if( $("#"+value1).val() == "yes"){
@@ -814,13 +829,36 @@
 
 			});
 		}
+
+		function openOrder(){
+			var strArr = "";
+			$("#order .withdrawals-panel").each(function() {
+				//alert($(this).val());
+				if($(this).val() == "yes"){
+					strArr += $(this).attr("id");
+					strArr += ",";
+				}
+			});
+			strArr = strArr.substring(0, strArr.length - 1);
+			//alert(strArr.indexOf(','));
+			if(strArr.indexOf(',') != -1){
+				alert("只能选择一项查看项");
+				return;
+			}
+			if(strArr.length < 3 ){
+				alert("请选择一项查看项");
+				return;
+			}
+			window.location.href="<%=basePath%>template_Order/toEditOrder?SALESORDERBILL_ID=" + strArr + "&USERID="+'${pd.USERID}';
+		}
        
        function edit(){
-		   var strArr = "";
+
 		   $("#order .withdrawals-panel").each(function() {
 			   //alert($(this).val());
 			   if($(this).val() == "yes"){
 				   strArr += $(this).attr("id");
+				   isEdit += $(this).attr("name");
 				   strArr += ",";
 			   }
 		   });
@@ -832,6 +870,11 @@
 		   }
 		   if(strArr.length < 3 ){
 			   alert("请选择一项修改项");
+			   return;
+		   }
+		   if(isEdit.length > 1){
+			   alert("选项为已提交订单，无法修改");
+			   isEdit = "";
 			   return;
 		   }
 		   window.location.href="<%=basePath%>template_Order/toEditOrder?SALESORDERBILL_ID=" + strArr + "&USERID="+'${pd.USERID}';
