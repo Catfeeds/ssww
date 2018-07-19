@@ -303,10 +303,10 @@
 																		<h2 style="font-size: 15px;margin-top: 10px">
 																			状态：
 																			<c:if test="${var.FSTATUS == 0}">
-																				<em style="margin-left:5%">草稿</em>
+																				<em id="ist${var.SALESORDERBILL_ID}" style="margin-left:5%">草稿</em>
 																		</h2>
 																		</c:if> <c:if test="${var.FSTATUS == 1}">
-																				<em >已提交</em>
+																				<em id="ist${var.SALESORDERBILL_ID}">已提交</em>
 																			</h2>
 																		</c:if></td>
 																	<td align="right" style="margin-right: 45px">
@@ -417,7 +417,7 @@
 																	<td style="width: 10%"><a
 
 																			<c:if test="${var.FSTATUS == 1}">
-																				onclick="openOrder('${var.SALESORDERBILL_ID}')"
+																				onclick="openHisOrder('${var.SALESORDERBILL_ID}')"
 																			</c:if>
 																			style="margin-top: 5px;width:65px;text-align: center;display: block;
 																			height: 28px;line-height: 28px;
@@ -542,7 +542,6 @@
 									</table>
 									<a onclick="searchByDate()" id="searchByDate"
 										style="width:90%; background:#0099CC;display: none">开始查询</a>
-
 								</div>
 							</div>
 							
@@ -799,16 +798,28 @@
 
 		function delOrder() {
 			var strArr = "";
-			$("#order .withdrawals-panel").each(function() {
+			var idt ="";
+			var htj = "0";
+			$.each($("#order .withdrawals-panel"),function() {
 				//alert($(this).val());
 				if($(this).val() == "yes"){
+					idt = $(this).attr("id");
+					if("已提交" == $("#ist"+idt).text()){
+						alert("已提交的订单不能删除!!");
+						htj = "1";
+						return false;
+					}
 					strArr += $(this).attr("id");
 					strArr += ",";
 				}
 			});
 			strArr = strArr.substring(0, strArr.length - 1);
-			if(strArr.length < 3 ){
-				alert("请选择一项修改项");
+			if(htj == "0"){
+				if(strArr.length < 3 ){
+					alert("请选择一项修改项");
+					return;
+				}
+			}else{
 				return;
 			}
 			$.confirm("是否删除已选中订单？", "", function() {
@@ -830,9 +841,13 @@
 			});
 		}
 
+		function openHisOrder(SALESORDERBILL_ID){
+			window.location.href="<%=basePath%>template_Order/toEditOrder?SALESORDERBILL_ID=" + SALESORDERBILL_ID + "&USERID="+'${pd.USERID}';
+		}
+
 		function openOrder(){
 			var strArr = "";
-			$("#order .withdrawals-panel").each(function() {
+			$.each($("#order .withdrawals-panel"),function() {
 				//alert($(this).val());
 				if($(this).val() == "yes"){
 					strArr += $(this).attr("id");

@@ -178,6 +178,7 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
+                pd1.put("FENTRYID", job.getString("FENTRYID"));
                 salesorderbillentryService.save(pd1);
             }
         }
@@ -238,7 +239,7 @@ public class Template_OrderController extends BaseController {
         }
         List<PageData> varList = null;
         varList = replenishentryService.list_ByOrder(pd);
-        if(varList.size() == 0){
+        if(varList.size() == 0 && (pd.getString("NOSOTEMPLATE_ID") == null || "".equals(pd.getString("NOSOTEMPLATE_ID")))){
             varList = sotemplateentryService.list_one(page);
         }
         //List<PageData>

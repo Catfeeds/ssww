@@ -27,6 +27,8 @@
 			<div class="main-content-inner">
 				<div class="page-content">
 					<div class="row">
+						<c:set var="theString" value="${closedSotempList}" />
+						<% int i=1; %>
 						<br>
 						<div class="" style="text-align: left;margin-left: 10px">
 							<a class="btn btn-mini btn-primary" onclick="saveInfo()">保存</a> <a
@@ -41,7 +43,7 @@
 									name="SOTEMPLATE_IDs" id="SOTEMPLATE_IDs" /> <input
 									type="hidden" value="${pd.QYWXUSER_ID}" name="QYWXUSER_ID"
 									id="QYWXUSER_ID" />
-								<table class="table table-border table-bg table-bordered">
+								<table style="margin-bottom: 10px;" class="table table-border table-bg table-bordered">
 									<tbody>
 										<tr class="warning">
 											<th width="20%"><label>名称：${pd.NAME}</label>
@@ -57,8 +59,7 @@
 										<strong style="font-size: 18px">订单模板： </strong>
 									</div>
 									<br>--%>
-									<c:set var="theString" value="${closedSotempList}" />
-									<% int i=1; %>
+
 									<table width="100%" border="2" bordercolor="#a0c6e5" style="margin-top: 10px">
 										<c:forEach items="${allSotempList}" var="var" varStatus="vs">
 											<% if (i%3==1) { %>

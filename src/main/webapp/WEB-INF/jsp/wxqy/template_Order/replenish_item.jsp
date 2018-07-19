@@ -219,10 +219,10 @@
 							//window.location.href = document.referrer;//返回上一页并刷新
 							if(data.arrStr != null && data.arrStr != ""){
 								alert("订单模板已存在:"+data.arrStr+"。请勿重复添加！！");
-								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}';
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+NOSOTEMPLATE_ID;
 
 							}else {
-								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}';
+								window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+NOSOTEMPLATE_ID;
 
 							}
 									   				 },
@@ -235,9 +235,10 @@
        
         function tosearch(){
         		var keywords = encodeURI(encodeURI($("#keywords").val()));
+				var NOSOTEMPLATE_ID = '${pd.NOSOTEMPLATE_ID}';
         		$.ajax({
 				       type: "GET",
-				       url: "template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&keywords="+keywords+"&SOTEMPLATE_ID="+'${pd.SOTEMPLATE_ID}'+ "&USERID="+'${pd.USERID}',
+				       url: "template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&keywords="+keywords+"&SOTEMPLATE_ID="+'${pd.SOTEMPLATE_ID}'+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+NOSOTEMPLATE_ID,
 				       data: $('#registSubmit').serialize(),
 					   }).success(function(message) {
 					   	$(":root").html(message);
@@ -249,7 +250,9 @@
 			}
 			
 		function toBack(){
-			javascript:history.back(-1);
+			var SOTEMPLATE_ID = '${pd.SOTEMPLATE_ID }';
+			var NOSOTEMPLATE_ID = '${pd.NOSOTEMPLATE_ID}';
+			window.location.href="<%=basePath%>template_Order/createOrder?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }&SOTEMPLATE_ID="+SOTEMPLATE_ID+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+NOSOTEMPLATE_ID;
 		}
 	</script>
 

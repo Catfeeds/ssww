@@ -72,17 +72,17 @@
 									<label class="pos-rel"><input type="checkbox" class="ace" id="zcheckbox" /><span class="lbl"></span></label>
 									</th>
 									<th class="center" style="width:50px;">序号</th>
-									<th class="center">模板id</th>
+									<th class="center">模板编号</th>
 									<th class="center">订单编号</th>
-									<th class="center">要求发货日期</th>
-									<th class="center">部门ID</th>
+									<%--<th class="center">要求发货日期</th>
+									<th class="center">部门名称</th>
 									<th class="center">联络人</th>
 									<th class="center">联系电话</th>
-									<th class="center">制作人ID</th>
+									<th class="center">制作人ID</th>--%>
 									<th class="center">制作日期</th>
 									<th class="center">状态</th>
-									<th class="center">审核人ID</th>
-									<th class="center">审核日期</th>
+									<%--<th class="center">审核人ID</th>
+									<th class="center">审核日期</th>--%>
 									<th class="center">备注</th>
 								</tr>
 							</thead>
@@ -98,22 +98,22 @@
 												<label class="pos-rel"><input type='checkbox' name='ids' value="${var.SALESORDERBILL_ID}" class="ace" /><span class="lbl"></span></label>
 											</td>
 											<td class='center' style="width: 30px;">${vs.index+1}</td>
-											<td class='center'>${var.FTEMPID}</td>
+											<td class='center'>${var.SOFBILLNO}</td>
 											<td class='center'>${var.FBILLNO}</td>
-											<td class='center'>${var.FNEEDDATE}</td>
-											<td class='center'>${var.FDEPTID}</td>
+											<%--<td class='center'>${var.FNEEDDATE}</td>
+											<td class='center'>${var.ENAME}</td>
 											<td class='center'>${var.FCONTACT}</td>
 											<td class='center'>${var.FTELEPHONE}</td>
-											<td class='center'>${var.FBILLERID}</td>
+											<td class='center'>${var.FBILLERID}</td>--%>
 											<td class='center'>${var.FDATE}</td>
-											<c:if test="${var.FSTATUS==0}">
+											<c:if test="${var.FSTATUS=='0'}">
 												<td class='center'>未提交</td>
 											</c:if>
-											<c:if test="${var.FSTATUS==1}">
+											<c:if test="${var.FSTATUS=='1'}">
 												<td class='center'>已提交</td>
 											</c:if>
-											<td class='center'>${var.FCHECKERID}</td>
-											<td class='center'>${var.FCHECKDATE}</td>
+											<%--<td class='center'>${var.FCHECKERID}</td>
+											<td class='center'>${var.FCHECKDATE}</td>--%>
 											<td class='center'>${var.FREMARK}</td>
 										</tr>
 									

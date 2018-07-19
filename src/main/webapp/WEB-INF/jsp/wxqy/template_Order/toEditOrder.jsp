@@ -26,7 +26,18 @@
 <meta name="format-detection" content="telephone=no" />
 <!-- jsp文件头和头部 -->
 <style>
-.float_div {
+	a{
+		text-decoration:none;
+	}
+	a:link{text-decoration:none; }  /* 指正常的未被访问过的链接*/
+
+	a:visited{text-decoration:none; }/*指已经访问过的链接*/
+
+	a:hover{text-decoration:none;}/*指鼠标在链接*/}
+
+	a:active{text-decoration:none;}/* 指正在点的链接*/
+
+	.float_div {
 	position: absolute;
 	width: 30px;
 	height: 30px;
@@ -101,7 +112,7 @@
 									<ul>
 										<c:forEach items="${repList}" var="var" varStatus="vs">
 											
-											<li>
+											<li  id="${var.REPLENISH_ITEM_ID}">
 												<div class="aui-car-box-list-item">
 													<c:if test="${pageData.FSTATUS == 0}">
 													<div class="float_div "
@@ -276,7 +287,8 @@
 			$('.aui-car-box-list-text-arithmetic1 input').each(function(){ 
 					 //alert($(this).attr("id"));
 					 newjsonstr += '{';  
-	                 newjsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';  
+	                 newjsonstr += '"FITEMID":"' +$(this).attr("id")+ '",';
+					 newjsonstr += '"FENTRYID":"' +$(this).attr("name")+ '",';
 	                 newjsonstr += '"FAUXQTY":"' +$(this).val();  
 	                 newjsonstr += '"}';
 	                 newjsonstr += ','; 
@@ -397,7 +409,8 @@
 							SALESORDERBILLENTRY_ID : SALESORDERBILLENTRY_ID, //订单物料id
 						  }, 
 					success: function(data){
-							location.reload();
+						$("#"+value).remove();
+							//location.reload();
 		   				 }, 
 		   			error: function(){
 		        		alert("失败，请稍后重试！！");

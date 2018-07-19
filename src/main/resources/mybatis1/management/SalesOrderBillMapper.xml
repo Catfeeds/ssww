@@ -131,21 +131,18 @@
 
 	<!-- 列表 -->
 	<select id="datalistPage" parameterType="page" resultType="pd">
-		select
-		<include refid="Field"></include>
-		from 
-		<include refid="tableName"></include>
+		select TOP 100000000000
+		SELECT ed.FNAME AS ENAME, so.FBILLNO AS SOFBILLNO, sa.* FROM TB_SALESORDERBILL sa
+		LEFT JOIN TB_SOTEMPLATE so ON sa.FTEMPID = so.SOTEMPLATE_ID
+		LEFT JOIN TB_ERP_DEP ed ON sa.FDEPTID = ed.FITEMID
 		where 1=1
 		<if test="pd.keywords!= null and pd.keywords != ''"><!-- 关键词检索 -->
 			and
 				(
-				<!--	根据需求自己加检索条件
-					字段1 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%')
-					 or 
-					字段2 LIKE CONCAT(CONCAT('%', #{pd.keywords}),'%') 
-				-->
+					sa.FBILLNO LIKE "%" + ${pd.keywords} + "%"
 				)
 		</if>
+		ORDER BY sa.FDATE
 	</select>
 	
 	<!-- 未同步或未同步成功订单列表 -->

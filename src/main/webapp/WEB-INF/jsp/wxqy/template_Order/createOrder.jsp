@@ -26,7 +26,18 @@
 <meta name="format-detection" content="telephone=no" />
 <!-- jsp文件头和头部 -->
 <style>
-.float_div {
+	a{
+		text-decoration:none;
+	}
+	a:link{text-decoration:none; }  /* 指正常的未被访问过的链接*/
+
+	a:visited{text-decoration:none; }/*指已经访问过的链接*/
+
+	a:hover{text-decoration:none;}/*指鼠标在链接*/}
+
+	a:active{text-decoration:none;}/* 指正在点的链接*/
+
+	.float_div {
 	position: absolute;
 	width: 30px;
 	height: 30px;
@@ -96,7 +107,7 @@
 									<ul>
 										<c:forEach items="${repList}" var="var" varStatus="vs">
 											
-											<li>
+											<li id="${var.REPLENISH_ITEM_ID}">
 												<div class="aui-car-box-list-item">
 													<%-- <c:if test="${pageData.FSTATUS == 0}"> --%>
 													<div class="float_div "
@@ -127,6 +138,7 @@
 															<div class="aui-car-box-list-text-arithmetic1">
 																<input type='number' id='${var.FITEMID}'  
 																	onfocus="this.select()"
+
 																  value='<fmt:formatNumber type="number"  
 																	 value="${var.FAUXQTY}" pattern="0" maxFractionDigits="0"/>' 																	style="width: 48px;height: 21px" class='ace' />
 															</div>
@@ -175,6 +187,7 @@
 															<!-- <a href="javascript:;" class="minus">-</a> -->
 															<input type='number' id='${var.FITEMID}' name="${var.SOTEMPLATEENTRY_ID}"
 																onfocus="this.select()"
+																   onchange="changeNum('${var.SALESORDERBILLENTRY_ID}','${var.FITEMID}')"
 																   <%--<c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == true}">value='0'  </c:if>
 																   <c:if test="${fn:contains(pd.NOSOTEMPLATE_ID,var.SOTEMPLATEENTRY_ID) == false}">
 																	   value='<fmt:formatNumber type="number"
@@ -230,6 +243,25 @@
 	<!-- 删除时确认窗口 -->
 	<script src="static/ace/js/bootbox.js"></script>
 	<script type="text/javascript">
+
+		function changeNum(SALESORDERBILLENTRY_ID,FITEMID) {
+			var FAUXQTY = $("#"+FITEMID).val()
+			$.ajax({
+				url: "<%=basePath%>template_Order/updateNum",
+				type: "POST",
+				data: {
+					FAUXQTY : FAUXQTY,
+					SALESORDERBILLENTRY_ID : SALESORDERBILLENTRY_ID, //订单id
+				},
+				success: function(data){
+				},
+				error: function(){
+					alert("失败，请稍后重试！！");
+				},
+			});
+			//alert($("#"+FITEMID).val()+"-----"+SALESORDERBILLENTRY_ID);
+		}
+
 		var arrayObj = new Array();
 
 		function del(value){
@@ -249,6 +281,10 @@
 		function addItem(){
 			save_replenishEntry();
 			$("#NOSOTEMPLATE_ID").val(arrayObj);
+			if(arrayObj.length < 5){
+				arrayObj = '${pd.NOSOTEMPLATE_ID}'
+				alert(arrayObj);
+			}
 			window.location.href="<%=basePath%>template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"
 									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+arrayObj;
 		}
@@ -444,7 +480,8 @@
 						REPLENISH_ITEM_ID : value, 
 					  }, 
 				success: function(data){
-						location.reload();
+						$("#"+value).remove();
+						//location.reload();
 	   				 }, 
 	   			error: function(){
 	        		alert("失败，请稍后重试！！");
