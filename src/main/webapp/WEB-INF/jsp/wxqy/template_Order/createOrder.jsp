@@ -283,7 +283,7 @@
 			$("#NOSOTEMPLATE_ID").val(arrayObj);
 			if(arrayObj.length < 5){
 				arrayObj = '${pd.NOSOTEMPLATE_ID}'
-				alert(arrayObj);
+				//alert(arrayObj);
 			}
 			window.location.href="<%=basePath%>template_Order/replenish_item?SALESORDERBILL_ID=${pd.SALESORDERBILL_ID }"
 									+"&SOTEMPLATE_ID="+"${pd.SOTEMPLATE_ID}"+ "&USERID="+'${pd.USERID}'+"&NOSOTEMPLATE_ID="+arrayObj;

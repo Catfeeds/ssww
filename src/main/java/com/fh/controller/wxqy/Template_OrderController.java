@@ -9,11 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -165,7 +161,11 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
-                pd1.put("FENTRYID", job.getString("FENTRYID"));
+                if(job.get("FENTRYID") == null || "".equals(job.get("FENTRYID"))){
+                    pd1.put("FENTRYID", job.get("FENTRYID"));
+                }else {
+                    pd1.put("FENTRYID", new Random().nextInt());
+                }
                 salesorderbillentryService.toEditOrder(pd1);
             }
         }
@@ -178,7 +178,11 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
-                pd1.put("FENTRYID", job.getString("FENTRYID"));
+                if(job.get("FENTRYID") == null || "".equals(job.get("FENTRYID"))){
+                    pd1.put("FENTRYID", job.get("FENTRYID"));
+                }else {
+                    pd1.put("FENTRYID", new Random().nextInt());
+                }
                 salesorderbillentryService.save(pd1);
             }
         }
@@ -202,7 +206,11 @@ public class Template_OrderController extends BaseController {
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
-                pd1.put("FENTRYID", job.getString("FENTRYID"));
+                if(job.get("FENTRYID") == null || "".equals(job.get("FENTRYID"))){
+                    pd1.put("FENTRYID", job.get("FENTRYID"));
+                }else {
+                    pd1.put("FENTRYID", new Random().nextInt());
+                }
                 salesorderbillentryService.toEditOrder(pd1);
             }
         }
@@ -215,6 +223,11 @@ public class Template_OrderController extends BaseController {
                 pd1.put("FITEMID", job.getString("FITEMID"));
                 pd1.put("SALESORDERBILLENTRY_ID", this.get32UUID());
                 pd1.put("FAUXQTY", Double.parseDouble(job.getString("FAUXQTY")));
+                if(job.get("FENTRYID") == null || "".equals(job.get("FENTRYID"))){
+                    pd1.put("FENTRYID", job.get("FENTRYID"));
+                }else {
+                    pd1.put("FENTRYID", new Random().nextInt());
+                }
                 salesorderbillentryService.save(pd1);
             }
         }
@@ -396,6 +409,7 @@ public class Template_OrderController extends BaseController {
         Map<String, Object> json = new HashMap<String, Object>();
         PageData pd = new PageData();
         pd = this.getPageData();
+        replenishentryService.deleteAll(pd);
         int count = 1;
         if (pd.getString("jsonstr").length() > 2) {
             JSONArray jsStr = JSONArray.fromObject(pd.getString("jsonstr"));
@@ -452,7 +466,9 @@ public class Template_OrderController extends BaseController {
         PageData pd1 = new PageData();
         //System.out.println("jsonstr:" + pd.getString("jsonstr"));
        // System.out.println("pd:" + pd);
-        List<PageData> listSotemplateentry = sotemplateentryService.findBySOTEMPLATE_ID(pd);
+        //List<PageData> listSotemplateentry = sotemplateentryService.findBySOTEMPLATE_ID(pd);
+        List<PageData> listReplenishEntry = replenishentryService.listAll(pd);
+        List<PageData> listReplenish_Item = replenish_itemService.listAll(pd);
         PageData pd2 = new PageData();
         StringBuffer arrStr = new StringBuffer();
         int addInt = 0;//0为开；1为关
@@ -463,14 +479,22 @@ public class Template_OrderController extends BaseController {
                 pd1.put("REPLENISH_ITEM_ID", this.get32UUID());
                 pd1.put("SALESORDERBILL_ID", pd.getString("SALESORDERBILL_ID"));
                 pd1.put("FITEMID", job.getString("FITEMID"));
-                for (int j = 0; j < listSotemplateentry.size(); j++) {
-                    if (listSotemplateentry.get(j).get("FITEMID").toString().equals(job.getString("FITEMID"))) {
+                for (int j = 0; j < listReplenishEntry.size(); j++) {
+                    if (listReplenishEntry.get(j).get("FITEMID").toString().equals(job.getString("FITEMID"))) {
                         addInt = 1 ;
                         pd2.put("FITEMID",job.getString("FITEMID"));
                         pd2 = itembaseService.findByFITEMID(pd2);
                         arrStr.append(pd2.getString("FNAME")+"，");
                         //System.out.println("arrStr:"+arrStr);
 
+                    }
+                }
+                for (int j = 0; j < listReplenish_Item.size(); j++) {
+                    if (listReplenish_Item.get(j).get("FITEMID").toString().equals(job.getString("FITEMID"))) {
+                        addInt = 1 ;
+                        pd2.put("FITEMID",job.getString("FITEMID"));
+                        pd2 = itembaseService.findByFITEMID(pd2);
+                        arrStr.append(pd2.getString("FNAME")+"，");
                     }
                 }
                 pd1.put("FAUXQTY", 1);
