@@ -280,7 +280,7 @@ public class Template_OrderController extends BaseController {
         pd.put("FSTATUS", 0);
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
-        PageData billnoPd = itemService.getBillNO(pd);
+        PageData billnoPd = salesorderbillService.getBillNO(pd);
         pd.put("FBILLNO",billnoPd.getString("BillNO"));
         //pd.put("FBILLNO", "11111");
         salesorderbillService.save(pd);

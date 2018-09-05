@@ -225,7 +225,9 @@ public class Contacts_UserService {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        } catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 		return openid;
 	}
 	//更新成员信息

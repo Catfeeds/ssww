@@ -81,7 +81,7 @@ public interface SalesOrderBillManager{
 
 	public PageData list_withSALESORDERBILL_ID(PageData pd)throws Exception;
 
-	/*public PageData getBillNO(PageData pd)throws Exception;*/
+	public PageData getBillNO(PageData pd)throws Exception;
 
 	/**列表(全部)
 	 * @param pd

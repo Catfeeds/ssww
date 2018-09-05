@@ -109,9 +109,9 @@ public class SalesOrderBillService implements SalesOrderBillManager{
 		return (PageData)dao.findForObject("SalesOrderBillMapper.list_withSALESORDERBILL_ID", pd);
 	}
 
-	/*public PageData getBillNO(PageData pd)throws Exception{
+	public PageData getBillNO(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("SalesOrderBillMapper.getBillNO", pd);
-	}*/
+	}
 
 	/**列表(全部)
 	 * @param pd

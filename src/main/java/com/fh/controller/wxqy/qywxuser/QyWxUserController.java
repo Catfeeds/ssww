@@ -326,15 +326,16 @@ public class QyWxUserController extends BaseController {
            }
        // System.out.println(sb.substring(0,sb.length()-1)+"]");
         return sb.substring(0,sb.length()-1)+"]";  
-    } 
-	
+    }
+
+	String accessToken = null;
 	@RequestMapping(value="/getUserByQYwx")
 	@ResponseBody
 	public  Map<String, Object> test_getUser() throws Exception{
 		System.out.println("----------->:同步用户信息controller");
 		Map<String, Object> json = new HashMap<String, Object>();
 		//2.获取access_token:根据企业id和通讯录密钥获取access_token,并拼接请求url
-		String accessToken= WeiXinUtil.getAccessToken(WeiXinParamesUtil.corpId, WeiXinParamesUtil.contactsSecret).getToken();
+		accessToken = WeiXinUtil.getAccessToken(WeiXinParamesUtil.corpId, WeiXinParamesUtil.contactsSecret).getToken();
 		//String accessToken2= WeiXinUtil.getAccessToken(WeiXinParamesUtil.corpId, WeiXinParamesUtil.contactsSecret).getToken();
 		System.out.println("accessToken:"+accessToken);
 		//System.out.println("accessToken:"+accessToken2);

@@ -245,7 +245,7 @@ public class ErpGetController extends BaseController{
     		int count = 0;
     		int dcount = 0;
     		int ecount = 0;
-    		SimpleDateFormat sdf =   new SimpleDateFormat("MMM d, yyyy K:m:s a",Locale.ENGLISH);
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH_mm_ss a");
     		PageData pd3 = new PageData();
             for (int i = 0; i < jsonarr.size(); i++) {
             	hint = 1;
