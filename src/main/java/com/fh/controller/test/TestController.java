@@ -2,15 +2,15 @@ package com.fh.controller.test;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.fh.wx.info.WeixinInfo;
+import com.fh.wx.pojo.AccessToken;
+import com.fh.wx.utils.WeixinUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -393,4 +393,130 @@ public class TestController extends BaseController{
 		
 		
 	}
+
+	@RequestMapping(value="/goThe")
+	public ModelAndView goThe(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		/*AccessToken accessToken = WeixinUtil.getAccessToken(WeixinInfo.AppID,WeixinInfo.AppSecret);
+		System.out.println(accessToken.getToken());*/
+		//--------------------
+		Map<String, Object> ret = new HashMap<String, Object>();
+		String appId = WeixinInfo.AppID; // 必填，公众号的唯一标识
+		String secret = WeixinInfo.AppSecret;
+
+		String requestUrl = "http://jittest.s1.natapp.cc/mcfound/test1/goThe";
+		String access_token = "";
+		String jsapi_ticket = "";
+		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
+		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
+		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+ appId + "&secret=" + secret;
+
+		JSONObject json = WeixinUtil.httpRequest(url, "GET", null);
+
+		if (json != null) {
+			//要注意，access_token需要缓存
+			access_token = json.getString("access_token");
+
+			url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+ access_token + "&type=jsapi";
+			json = WeixinUtil.httpRequest(url, "GET", null);
+			if (json != null) {
+				jsapi_ticket = json.getString("ticket");
+			}
+		}
+		String signature = "";
+		// 注意这里参数名必须全部小写，且必须有序
+		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr+ "&timestamp=" + timestamp + "&url=" + requestUrl;
+		try {
+			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+			crypt.reset();
+			crypt.update(sign.getBytes("UTF-8"));
+			signature = byteToHex(crypt.digest());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		pd.put("appId", appId);
+		pd.put("timestamp", timestamp);
+		pd.put("nonceStr", nonceStr);
+		pd.put("signature", signature);
+		//--------------------
+		mv.setViewName("test/index");
+		mv.addObject("pd", pd);
+		//mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+
+
+	}
+
+	@RequestMapping(value="/goThe1")
+	public ModelAndView goThe1(Page page) throws Exception{
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		/*AccessToken accessToken = WeixinUtil.getAccessToken(WeixinInfo.AppID,WeixinInfo.AppSecret);
+		System.out.println(accessToken.getToken());*/
+		//--------------------
+		Map<String, Object> ret = new HashMap<String, Object>();
+		String appId = WeixinInfo.AppID; // 必填，公众号的唯一标识
+		String secret = WeixinInfo.AppSecret;
+
+		String requestUrl = "http://jittest.s1.natapp.cc/mcfound/test1/goThe1";
+		String access_token = "";
+		String jsapi_ticket = "";
+		String timestamp = Long.toString(System.currentTimeMillis() / 1000); // 必填，生成签名的时间戳
+		String nonceStr = UUID.randomUUID().toString(); // 必填，生成签名的随机串
+		String url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="+ appId + "&secret=" + secret;
+
+		JSONObject json = WeixinUtil.httpRequest(url, "GET", null);
+
+		if (json != null) {
+			//要注意，access_token需要缓存
+			access_token = json.getString("access_token");
+
+			url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+ access_token + "&type=jsapi";
+			json = WeixinUtil.httpRequest(url, "GET", null);
+			if (json != null) {
+				jsapi_ticket = json.getString("ticket");
+			}
+		}
+		String signature = "";
+		// 注意这里参数名必须全部小写，且必须有序
+		String sign = "jsapi_ticket=" + jsapi_ticket + "&noncestr=" + nonceStr+ "&timestamp=" + timestamp + "&url=" + requestUrl;
+		try {
+			MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+			crypt.reset();
+			crypt.update(sign.getBytes("UTF-8"));
+			signature = byteToHex(crypt.digest());
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		pd.put("appId", appId);
+		pd.put("timestamp", timestamp);
+		pd.put("nonceStr", nonceStr);
+		pd.put("signature", signature);
+		//--------------------
+		mv.setViewName("test/index1");
+		mv.addObject("pd", pd);
+		//mv.addObject("QX",Jurisdiction.getHC());	//按钮权限
+		return mv;
+
+
+	}
+
+	private static String byteToHex(final byte[] hash) {
+		Formatter formatter = new Formatter();
+		for (byte b : hash) {
+			formatter.format("%02x", b);
+		}
+		String result = formatter.toString();
+		formatter.close();
+		return result;
+
+	}
+
 }

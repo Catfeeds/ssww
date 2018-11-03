@@ -28,7 +28,7 @@
         <link rel="stylesheet" type="text/css" href="styles.css">
         -->
     <script src="static/js/store/jquery-2.1.4.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
 </head>
 
 <body>
@@ -43,13 +43,12 @@
         timestamp : parseInt('${timestamp}'), // 必填，生成签名的时间戳
         nonceStr : '${nonceStr}', // 必填，生成签名的随机串
         signature : '${signature}',// 必填，签名，见[附录1](#11974)
-        jsApiList : [ 'chooseImage', 'uploadImage',//上传图片接口
-            'downloadImage'//下载图片接口
+        jsApiList : [ 'scanQRCode'//下载图片接口
 
         ]
         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
-    wx.getLocation({
+   /* wx.getLocation({
         type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
         success: function (res) {
             var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
@@ -58,10 +57,10 @@
             var accuracy = res.accuracy; // 位置精度
             alert(accuracy);
         }
-    });
+    });*/
     wx.ready(function() {
 
-        var images = {
+        /*var images = {
             localId : [],
             serverId : []
         };
@@ -125,18 +124,19 @@
                 });
             }
             download();
-        };
+        };*/
     });
 
     function ewm() {
         wx.scanQRCode({
-            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
             scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
             success: function (res) {
                 var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                alert(result);
+                alert(result+"cccc");
             }
         });
+
     }
     <%-- $(function(){
               jump();
