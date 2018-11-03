@@ -221,7 +221,7 @@
     </div>
     <div class="m-img m-img01" style="background:url(static/hl/images/new/9.png) center no-repeat; background-size:cover;"> </div>
 </section>
-<section data-page="6" class="m-page m-page6 hide" data-id="25511" data-type="multi_contact" style="height: 643px;">
+<!--<section data-page="6" class="m-page m-page6 hide" data-id="25511" data-type="multi_contact" style="height: 643px;">
 
     <div style="position: absolute;display:none"  id="container"  >
 
@@ -236,13 +236,13 @@
             <p class="tel btn-boder-color"><a href="tel:13760931020"><span class="css_sprite01"></span>联系新娘：13760931020</a></p>
             <p class="tel btn-boder-color"><a id="btn" data-clipboard-text="云浮市宝马路藕塘村人居建材装饰材料厂">复制男方定位地址</a></p>
             <p class="tel btn-boder-color"><a id="btn1" data-clipboard-text="云浮市罗定素龙富有塘">复制女方定位地址</a></p>
-            <%--<p class="tel btn-boder-color"><button onclick="share()" id="share"><span class="css_sprite01"></span>分享</button></p>--%>
+           
         </div>
     </div>
     <div class="m-img m-img01" style="background:url(static/hl/images/new/7.png) center no-repeat; background-size:cover;">
     </div>
 
-</section>
+</section>-->
 <section class="u-arrow"><img src="static/hl/images/new/btn01_arrow.png"></section>
 <script src="static/js/store/jquery-2.1.4.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
@@ -275,7 +275,7 @@
         timestamp : parseInt('${pd.timestamp}'), // 必填，生成签名的时间戳
         nonceStr : '${pd.nonceStr}', // 必填，生成签名的随机串
         signature : '${pd.signature}',// 必填，签名，见[附录1](#11974)
-        jsApiList : [ 'onMenuShareAppMessage'//下载图片接口
+        jsApiList : [ 'onMenuShareAppMessage','onMenuShareTimeline'//下载图片接口
 
         ]
         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
@@ -297,6 +297,29 @@
         }, function(res) {
             alert("111");
         });
+		wx.onMenuShareTimeline({
+            title: shareTitle, // 分享标题
+            desc: descContent, // 分享描述
+            link: lineLink, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+            imgUrl: imgUrl, // 分享图标
+        }, function(res) {
+            alert("111");
+        });
+		
+		/*wx.updateAppMessageShareData({
+                 title: '邓家成和陈思怡的婚礼邀请',  //分享title
+                 link: '<%=basePath%>test1/goThe1',   //同样，必须是绝对路径
+				 desc: descContent, // 分享描述
+                 imgUrl: '<%=basePath%>static/hl/images/new/K74A1372.png',  //注意必须是绝对路径
+                 success: function () { 
+                     // 用户确认分享后执行的回调函数
+                      //alert('分享到朋友圈成功');
+                 },
+                 cancel: function () { 
+                     // 用户取消分享后执行的回调函数
+                      //alert('你没有分享到朋友圈');
+                 }
+             });*/
     });
 
     var vid = document.querySelector('video');
@@ -314,7 +337,7 @@
     });
 
 
-    map_init();
+    //map_init();
     function map_init(){
         //var markerArr = obj;
         //console.log(markerArr.ywType);
@@ -383,7 +406,7 @@
 
     }
 
-    var btn = document.getElementById('btn');
+    /*var btn = document.getElementById('btn');
     var clipboard = new Clipboard(btn);
     clipboard.on('success', function(e) {
         alert("地址复制成功，请在手机地图粘贴定位");
@@ -401,9 +424,9 @@
     });
     clipboard1.on('error', function(e) {
         alert("复制失败了");
-    });
+    });*/
 
-    map_init1();
+    //map_init1();
     function map_init1(){
         //var markerArr = obj;
         //console.log(markerArr.ywType);

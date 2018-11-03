@@ -236,8 +236,8 @@
         <div class="btn">
             <p class="tel btn-boder-color"><a href="tel:15819531619"><span class="css_sprite01"></span>联系新郎：15819531619</a></p>
             <p class="tel btn-boder-color"><a href="tel:13760931020"><span class="css_sprite01"></span>联系新娘：13760931020</a></p>
-            <p class="tel btn-boder-color"><a id="btn" data-clipboard-text="云浮市宝马路藕塘村人居建材装饰材料厂">复制男方定位地址</a></p>
-            <p class="tel btn-boder-color"><a id="btn1" data-clipboard-text="云浮市罗定素龙富有塘">复制女方定位地址</a></p>
+            <p class="tel btn-boder-color"><a onclick="openGps('112.0579,22.929915','云浮市宝马路藕塘村')" id="btn" data-clipboard-text="云浮市宝马路藕塘村人居建材装饰材料厂">打开地图定位到新郎酒席位置</a></p>
+            <p class="tel btn-boder-color"><a onclick="openGps('111.610809,22.763045','云浮市罗定素龙富有塘')" id="btn1" data-clipboard-text="云浮市罗定素龙富有塘">打开地图定位到新娘酒席位置</a></p>
             <%--<p class="tel btn-boder-color"><button onclick="share()" id="share"><span class="css_sprite01"></span>分享</button></p>--%>
         </div>
     </div>
@@ -267,7 +267,7 @@
 <script type="text/javascript" src="static/hl/js/wxm-core176ed4.js"></script>
 <script type="text/javascript" src="static/hl/js/wxshare.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3">  </script>
-<script type="text/javascript" src="static/hl/js/clipboard.min.js"></script>
+<%--<script type="text/javascript" src="static/hl/js/clipboard.min.js"></script>--%>
 <script language=javascript>
 
     wx.config({
@@ -277,11 +277,23 @@
         timestamp : parseInt('${pd.timestamp}'), // 必填，生成签名的时间戳
         nonceStr : '${pd.nonceStr}', // 必填，生成签名的随机串
         signature : '${pd.signature}',// 必填，签名，见[附录1](#11974)
-        jsApiList : [ 'onMenuShareAppMessage','openLocation'//下载图片接口
+        jsApiList : [ 'onMenuShareAppMessage','onMenuShareTimeline','openLocation'//下载图片接口
 
         ]
         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
+
+    function openGps(point,adressName){
+        var p = point.split(',');
+        //$("#iosDialog3").fadeIn(200);
+        wx.openLocation({
+            latitude: p[1], // 纬度，浮点数，范围为90 ~ -90
+            longitude: p[0], // 经度，浮点数，范围为180 ~ -180。
+            name: adressName, // 位置名
+            address: '', // 地址详情说明
+            scale: 17, // 地图缩放级别,整形值,范围从1~28。默认为16
+        });
+    }
 
 
 
@@ -299,6 +311,21 @@
         }, function(res) {
             alert("111");
         });
+		
+		wx.onMenuShareTimeline({
+                 title: '邓家成和陈思怡的婚礼邀请',  //分享title
+                 link: '<%=basePath%>test1/goThe',   //同样，必须是绝对路径
+				 desc: descContent, // 分享描述
+                 imgUrl: '<%=basePath%>static/hl/images/new/K74A1372.png',  //注意必须是绝对路径
+                 success: function () { 
+                     // 用户确认分享后执行的回调函数
+                      //alert('分享到朋友圈成功');
+                 },
+                 cancel: function () { 
+                     // 用户取消分享后执行的回调函数
+                      //alert('你没有分享到朋友圈');
+                 }
+             });
     });
 
     var vid = document.querySelector('video');
@@ -387,7 +414,7 @@
         });*/
 
     }
-    var btn = document.getElementById('btn');
+    /*var btn = document.getElementById('btn');
     var clipboard = new Clipboard(btn);
     clipboard.on('success', function(e) {
         alert("地址复制成功，请在手机地图粘贴定位");
@@ -405,7 +432,7 @@
     });
     clipboard1.on('error', function(e) {
         alert("复制失败了");
-    });
+    });*/
 
     map_init1();
     function map_init1(){
