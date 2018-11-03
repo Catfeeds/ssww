@@ -85,7 +85,7 @@ public class WeixinController extends BaseController{
 				               return this.get(0) + this.get(1) + this.get(2); 
 				           } 
 				         }; 
-				   list.add(Tools.readTxtFile(Const.WEIXIN)); 		//读取Token(令牌)
+				   list.add("bygJc"); 		//读取Token(令牌)
 				   list.add(timestamp); 
 				   list.add(nonce); 
 				   Collections.sort(list);							// 排序 
