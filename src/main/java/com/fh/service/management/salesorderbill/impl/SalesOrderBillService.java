@@ -129,6 +129,15 @@ public class SalesOrderBillService implements SalesOrderBillManager{
 	public PageData findById(PageData pd)throws Exception{
 		return (PageData)dao.findForObject("SalesOrderBillMapper.findById", pd);
 	}
+
+	/**获取最后那张订单
+	 * @param pd
+	 * @throws Exception
+	 */
+	public PageData findTopOrder(PageData pd)throws Exception{
+		return (PageData)dao.findForObject("SalesOrderBillMapper.findTopOrder", pd);
+	}
+
 	/**获取月份的订单量
 	 * @param page
 	 * @throws Exception

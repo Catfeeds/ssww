@@ -280,9 +280,12 @@ public class Template_OrderController extends BaseController {
         pd.put("FSTATUS", 0);
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
-        PageData billnoPd = salesorderbillService.getBillNO(pd);
-        pd.put("FBILLNO",billnoPd.getString("BillNO"));
-        //pd.put("FBILLNO", "11111");
+        Calendar now = Calendar.getInstance();
+        PageData billnoPd = salesorderbillService.findTopOrder(pd);
+        String FBILLNO = billnoPd.getString("FBILLNO");
+        //在最大订单后面加1
+        int intBillno = Integer.parseInt(FBILLNO.substring(FBILLNO.length()-4,FBILLNO.length()))+1;
+        pd.put("FBILLNO","SEORD"+now.get(Calendar.YEAR)+(now.get(Calendar.MONTH) + 1) + ""+intBillno);
         salesorderbillService.save(pd);
         int count = 1;
         if (pd.getString("jsonstr").length() > 2) {
