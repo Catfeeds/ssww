@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -281,11 +282,20 @@ public class Template_OrderController extends BaseController {
         pd.put("FSYNSTATUS", 0);
         pd.put("FDATE", new Date());
         Calendar now = Calendar.getInstance();
-        PageData billnoPd = salesorderbillService.findTopOrder(pd);
-        String FBILLNO = billnoPd.getString("FBILLNO");
+        DecimalFormat df = new DecimalFormat("0000");
+        String FBILLNO = null;
+        int intBillno ;
+        pd.put("FBILLNO","SEORD"+now.get(Calendar.YEAR)+(now.get(Calendar.MONTH) + 1));
+        try{
+            PageData billnoPd = salesorderbillService.findTopOrder(pd);
+            FBILLNO = billnoPd.getString("FBILLNO");
+            intBillno = Integer.parseInt(FBILLNO.substring(FBILLNO.length()-4))+1;
+        }catch (Exception e){
+            //FBILLNO = "SEORD"+now.get(Calendar.YEAR)+(now.get(Calendar.MONTH) + 1) + "0001";
+            intBillno = 1;
+        }
         //在最大订单后面加1
-        int intBillno = Integer.parseInt(FBILLNO.substring(FBILLNO.length()-4,FBILLNO.length()))+1;
-        pd.put("FBILLNO","SEORD"+now.get(Calendar.YEAR)+(now.get(Calendar.MONTH) + 1) + ""+intBillno);
+        pd.put("FBILLNO","SEORD"+now.get(Calendar.YEAR)+(now.get(Calendar.MONTH) + 1) + ""+df.format(intBillno));
         salesorderbillService.save(pd);
         int count = 1;
         if (pd.getString("jsonstr").length() > 2) {

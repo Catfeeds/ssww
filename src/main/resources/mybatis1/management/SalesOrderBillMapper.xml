@@ -125,7 +125,8 @@
 
 	<!-- 获取最后那张订单 -->
 	<select id="findTopOrder" parameterType="pd" resultType="pd">
-		select top 1 * from TB_SALESORDERBILL order by FBILLNO desc
+		select top 1 * from TB_SALESORDERBILL where FBILLNO like '%' + #{FBILLNO} + '%' order by FBILLNO desc
+		/*select top 1 * from TB_SALESORDERBILL where FBILLNO like '%SEORD201812%' order by FBILLNO desc*/
 	</select>
 
 	<select id="getBillNO" parameterType="page" resultType="pd">
